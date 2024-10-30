@@ -361,14 +361,15 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public Page<Job> getJobsFromLast7Days(int page, int size) {
 	    logger.info("class:: JobServiceImpl -> method getJobsFromLast7Days() :: latest Job posted in last 7 days");
-	    PageRequest pageRequest = PageRequest.of(page, size); // No sorting, only pagination
+	    PageRequest pageRequest = PageRequest.of(0, 10); // No sorting, only pagination
 
-	    Calendar calendar = Calendar.getInstance();
-	    calendar.add(Calendar.DAY_OF_YEAR, -7); // Jobs from the last 7 days
-	    Date startDate = calendar.getTime();
+//	    Calendar calendar = Calendar.getInstance();
+//	    calendar.add(Calendar.DAY_OF_YEAR, -7); // Jobs from the last 7 days
+//	    Date startDate = calendar.getTime();
 	    boolean status = true; // Active jobs
 
-	    return repository.findJobsFromLast7Days(startDate, status, pageRequest);
+//	    repository.findJobsFromLast7Days(null, status, pageRequest)
+	    return repository.findLatestJobs(status, pageRequest);
 	}
 
 
