@@ -1,23 +1,17 @@
 package com.jobbox.Project_Jobbox.entity;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
@@ -40,9 +34,8 @@ public class User implements UserDetails {
 	private String password;
 	private String companyWebsite;
 
-    private String skills; 
+	private String skills;
 	private String experience;
-
 
 	@Embedded
 	private EducationDetails educationDetails;
@@ -78,6 +71,7 @@ public class User implements UserDetails {
 	public void setSkills(String skills) {
 		this.skills = skills;
 	}
+
 	public EducationDetails getEducationDetails() {
 		return educationDetails;
 	}
@@ -85,8 +79,6 @@ public class User implements UserDetails {
 	public void setEducationDetails(EducationDetails educationDetails) {
 		this.educationDetails = educationDetails;
 	}
-
-
 
 	public String getExperience() {
 		return experience;
@@ -191,41 +183,41 @@ public class User implements UserDetails {
 				+ appliedDate + ", companyName=" + companyName + ", phone=" + phone + ", password=" + password
 				+ ", companyWebsite=" + companyWebsite + ", skills=" + skills + ",  experience=" + experience + "]";
 	}
+
 	public String getEducation() {
-        return educationDetails != null ? educationDetails.getFormattedEducationDetails() : "N/A";
-    }
-	
-	 @Override
-	    public Collection<? extends GrantedAuthority> getAuthorities() {
-	        // Return roles or authorities if you have them
-	        return Collections.emptyList(); // Replace with actual authorities if you have roles
-	    }
+		return educationDetails != null ? educationDetails.getFormattedEducationDetails() : "N/A";
+	}
 
-	    @Override
-	    public boolean isAccountNonExpired() {
-	        return true; // Implement as per your requirement
-	    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// Return roles or authorities if you have them
+		return Collections.emptyList(); // Replace with actual authorities if you have roles
+	}
 
-	    @Override
-	    public boolean isAccountNonLocked() {
-	        return true; // Implement as per your requirement
-	    }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true; // Implement as per your requirement
+	}
 
-	    @Override
-	    public boolean isCredentialsNonExpired() {
-	        return true; // Implement as per your requirement
-	    }
+	@Override
+	public boolean isAccountNonLocked() {
+		return true; // Implement as per your requirement
+	}
 
-	    @Override
-	    public boolean isEnabled() {
-	        return true; // Implement as per your requirement
-	    }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true; // Implement as per your requirement
+	}
 
-		@Override
-		public String getUsername() {
-			// TODO Auto-generated method stub
-			return userEmail;
-		}
+	@Override
+	public boolean isEnabled() {
+		return true; // Implement as per your requirement
+	}
 
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return userEmail;
+	}
 
 }

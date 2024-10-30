@@ -59,6 +59,8 @@ public interface UserService {
 
 	User checkUserByEmail(String userEmail);
 
+	User updateUserDetails(User user);
+
 //	String findUserPasswordByName(String email);
 //
 

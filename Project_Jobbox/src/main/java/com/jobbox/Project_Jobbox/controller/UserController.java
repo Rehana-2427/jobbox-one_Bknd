@@ -255,6 +255,17 @@ public class UserController {
 		User u = service.updateUserData(user);
 		return new ResponseEntity<User>(u, HttpStatus.OK);
 	}
+	
+	
+	  @PutMapping("/updateUserDetails")
+	    public ResponseEntity<User> updateUserDetails(@RequestBody User user) {
+	        try {
+	            User updateResult = service.updateUserDetails(user);
+	            return new ResponseEntity<>(updateResult, HttpStatus.OK);
+	        } catch (RuntimeException e) {
+	            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	        }
+	    }
 
 	@PutMapping("/updateCandidateDetails")
 	public ResponseEntity<User> updateCandidateDetails(@RequestParam int userId, @RequestBody User updateUserDetails) {

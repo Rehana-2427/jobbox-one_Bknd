@@ -72,6 +72,8 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Company findCompanyById(int id) {
 
+		logger.info("class:: CompanyServiceImpl -> method findCompanyById ::{ id }" +id);
+
 		Optional<Company> optional = repository.findById(id);
 		if (optional.isPresent()) {
 			Company c = optional.get();
