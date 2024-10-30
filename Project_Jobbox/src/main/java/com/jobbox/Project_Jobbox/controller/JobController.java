@@ -292,7 +292,7 @@ public class JobController {
 	@GetMapping("/latestJobs")
 	public ResponseEntity<Page<Job>> getJobsFromLast7Days(
 	        @RequestParam(defaultValue = "0") int page,
-	        @RequestParam(defaultValue = "5") int size) {
+	        @RequestParam(defaultValue = "10") int size) {
 	    Page<Job> jobs = jobService.getJobsFromLast7Days(page, size);
 	    return new ResponseEntity<>(jobs, HttpStatus.OK);
 	}

@@ -146,4 +146,7 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 	@Query("SELECT job.jobId FROM Job job WHERE job.jobCategory = 'evergreen'")
 	int[] findEvergreenJobIds();
 
+	@Query("SELECT job FROM Job job WHERE  job.jobStatus=?1 ORDER BY job.postingDate DESC")
+	Page<Job> findLatestJobs(boolean status, PageRequest pageRequest);
+
 }
