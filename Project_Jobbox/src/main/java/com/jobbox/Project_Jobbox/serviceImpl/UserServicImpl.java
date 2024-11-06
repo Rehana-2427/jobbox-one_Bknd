@@ -376,4 +376,15 @@ public class UserServicImpl implements UserService, UserDetailsService {
 		return repository.findUserByEmail(userEmail);
 	}
 
+	@Override
+	public User updateCandidate(int userId, String newName) {
+		// TODO Auto-generated method stub
+		logger.info("class:: UserServicImpl -> method   updateCandidate :: userId {}"+userId +" newName{} "+newName );
+		User user=repository.getById(userId);
+		user.setUserName(newName);
+		repository.save(user);
+		System.out.println(user);
+		return user;
+	}
+
 }

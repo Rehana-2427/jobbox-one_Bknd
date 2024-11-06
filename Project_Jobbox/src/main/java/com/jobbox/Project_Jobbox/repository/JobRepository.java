@@ -82,8 +82,8 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 	List<Object[]> getCountJobsByEachMonth(String company);
 
 	@Query("SELECT j FROM Job j WHERE j.jobId NOT IN :userJobIds AND j.jobStatus = :isActive")
-	List<Job> findJobsNotAssociatedWithUser(@Param("userJobIds") List<Integer> userJobIds,
-			@Param("isActive") Boolean isActive);
+	Page<Job> findJobsNotAssociatedWithUser(@Param("userJobIds") List<Integer> userJobIds,
+			@Param("isActive") Boolean isActive, PageRequest pageRequest);
 
 	@Query("select job from Job job where job.jobId=?1 AND job.jobStatus=?2")
 	Job getJobByJobId(int jobId, boolean b);

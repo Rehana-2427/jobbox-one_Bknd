@@ -25,10 +25,10 @@ import com.jobbox.Project_Jobbox.service.JobService;
 
 @Service
 public class JobServiceImpl implements JobService {
-	
-	
+
+
 	Logger logger=LoggerFactory.getLogger(JobServiceImpl.class);
-	
+
 	@Autowired
 	public JobRepository repository;
 	@Autowired
@@ -51,23 +51,23 @@ public class JobServiceImpl implements JobService {
 		job.setCompanyName(company);
 		job.setUserId(hrId);
 		job.setUserName(hrName);
-		  // Ensure that job category (temp or evergreen) is passed correctly
+		// Ensure that job category (temp or evergreen) is passed correctly
 		return repository.save(job);
 
 	}
 
-//	@Override
-//	public List<Job> getAllJobs() {
-//		// TODO Auto-generated method stub
-//		boolean status = true;
-//		return repository.findAll(status);
-//	}
-//
-//	@Override
-//	public List<Job> getJobsByJobId(int jobId) {
-//		// TODO Auto-generated method stub
-//		return repository.getJobByJobId(jobId);
-//	}
+	//	@Override
+	//	public List<Job> getAllJobs() {
+	//		// TODO Auto-generated method stub
+	//		boolean status = true;
+	//		return repository.findAll(status);
+	//	}
+	//
+	//	@Override
+	//	public List<Job> getJobsByJobId(int jobId) {
+	//		// TODO Auto-generated method stub
+	//		return repository.getJobByJobId(jobId);
+	//	}
 
 	@Override
 	public String getCompanyNameById(int jobId) {
@@ -110,7 +110,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Map<Integer, Double> getMonthlyJobPercentagesByCompany(String userEmail) {
-		
+
 		logger.info("class:: JobServicImpl -> method  getMonthlyJobPercentagesByCompany() :: userEmail {} "+userEmail);
 		String companyName = userRepository.getCompanyByEmail(userEmail);
 		List<Object[]> monthlyJobCounts = repository.getCountJobsByEachMonth(companyName);
@@ -185,7 +185,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Page<Job> getJobsPagination(int page, int size, String sortBy, String sortOrder) {
-		
+
 		logger.info("class:: JobServicImpl -> method  getJobsPagination() :: Candidate {} ");
 		PageRequest pageRequest;
 
@@ -202,7 +202,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Page<Job> findJobs(String search, int page, int size, String sortBy, String sortOrder) {
-		
+
 		logger.info("class:: JobServicImpl -> method  findJobs() :: search {} "+search);
 		PageRequest pageRequest;
 		if (sortBy == null || sortBy.isEmpty()) {
@@ -236,7 +236,7 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public Page<Job> getJobsByHrEmailEachCompany(String userEmail, boolean status, int page, int size, String sortBy,
 			String sortOrder) {
-		
+
 		logger.info("class:: JobServicImpl -> method  getJobsByHrEmailEachCompany() :: userEmail {} "+userEmail);
 		PageRequest pageRequest;
 		String company = userRepository.getCompanyByEmail(userEmail);
@@ -253,8 +253,8 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Page<Job> getJobsByCompany(String companyName, int page, int size, String sortBy, String sortOrder) {
-		
-		
+
+
 		logger.info("class:: JobServicImpl -> method  getJobsByCompany() :: companyName {} "+companyName);
 		PageRequest pageRequest;
 		if (sortBy == null || sortBy.isEmpty()) {
@@ -295,7 +295,8 @@ public class JobServiceImpl implements JobService {
 				System.out.println("jobId     ---> " + jobId);
 			}
 
-			jobs = repository.findJobsNotAssociatedWithUser(jobIdsByUserId, true);
+			Page<Job> jobsPage = repository.findJobsNotAssociatedWithUser(jobIdsByUserId, true,pageRequest);
+			return jobsPage;
 
 		} else {
 			System.out.println("helloo  applied ++++> " + filterStatus);
@@ -304,14 +305,14 @@ public class JobServiceImpl implements JobService {
 				System.out.println("jobId     ---> " + jobId);
 			}
 			for (Integer jobId : jobIdsByUserId) {
-				Job job = repository.getJobByJobId(jobId, true);
+				Job job= repository.getJobByJobId(jobId, true);	
 				System.out.println(job);
 				if (job != null) {
 					jobs.add(job);
+
 				}
 			}
 		}
-
 		// Iterate through each jobId and fetch corresponding Job
 
 		int start = (int) pageRequest.getOffset();
@@ -342,7 +343,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Page<Job> getJobsByCompany(int companyId, int page, int size, String sortBy, String sortOrder) {
-		
+
 		logger.info("class:: JobServicImpl -> method getJobsByCompany() :: companyId{} "+companyId);
 		String company = companyRepository.getCompanyName(companyId);
 		System.out.println(company);
@@ -360,23 +361,23 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Page<Job> getJobsFromLast7Days(int page, int size) {
-	    logger.info("class:: JobServiceImpl -> method getJobsFromLast7Days() :: latest Job posted in last 7 days");
-	    PageRequest pageRequest = PageRequest.of(0, 10); // No sorting, only pagination
+		logger.info("class:: JobServiceImpl -> method getJobsFromLast7Days() :: latest Job posted in last 7 days");
+		PageRequest pageRequest = PageRequest.of(0, 10); // No sorting, only pagination
 
-//	    Calendar calendar = Calendar.getInstance();
-//	    calendar.add(Calendar.DAY_OF_YEAR, -7); // Jobs from the last 7 days
-//	    Date startDate = calendar.getTime();
-	    boolean status = true; // Active jobs
+		//	    Calendar calendar = Calendar.getInstance();
+		//	    calendar.add(Calendar.DAY_OF_YEAR, -7); // Jobs from the last 7 days
+		//	    Date startDate = calendar.getTime();
+		boolean status = true; // Active jobs
 
-//	    repository.findJobsFromLast7Days(null, status, pageRequest)
-	    return repository.findLatestJobs(status, pageRequest);
+		//	    repository.findJobsFromLast7Days(null, status, pageRequest)
+		return repository.findLatestJobs(status, pageRequest);
 	}
 
 
 	@Override
 	public Page<Job> getJobsByCompany(int page, int size, String sortBy, String sortOrder, String companyName) {
 		// TODO Auto-generated method stub
-		
+
 		logger.info("class:: JobServicImpl -> method  getJobsByCompany() :: compamyName :  "+companyName);
 		PageRequest pageRequest;
 
@@ -395,38 +396,38 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public List<Job> getLatest5JobsByCompany(String companyName) {
 		logger.info("class:: JobServicImpl -> method  getLatest5JobsByCompany() :: compamyName :  "+companyName);
-	    boolean status = true; // Assuming you want to filter by active jobs
-	    return repository.findLatest5JobsByCompany(status, companyName);
+		boolean status = true; // Assuming you want to filter by active jobs
+		return repository.findLatest5JobsByCompany(status, companyName);
 	}
 
 	@Override
 	public Page<Job> searchJobsByCompany(
-	        String search,
-	        int page,
-	        int size,
-	        String sortBy,
-	        String sortOrder,
-	        String companyName) {
-		
+			String search,
+			int page,
+			int size,
+			String sortBy,
+			String sortOrder,
+			String companyName) {
+
 		logger.info("class:: JobServicImpl -> method  searchJobsByCompany() :: compamyName :  "+companyName);
 
-	    PageRequest pageRequest;
-	    if (sortBy == null || sortBy.isEmpty()) {
-	        pageRequest = PageRequest.of(page, size); // No sorting
-	    } else {
-	        Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) 
-	                ? Sort.by(sortBy).ascending()
-	                : Sort.by(sortBy).descending();
-	        pageRequest = PageRequest.of(page, size, sort);
-	    }
+		PageRequest pageRequest;
+		if (sortBy == null || sortBy.isEmpty()) {
+			pageRequest = PageRequest.of(page, size); // No sorting
+		} else {
+			Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) 
+					? Sort.by(sortBy).ascending()
+							: Sort.by(sortBy).descending();
+			pageRequest = PageRequest.of(page, size, sort);
+		}
 
-	    return repository.findJobsInCompany(search, companyName, pageRequest);
+		return repository.findJobsInCompany(search, companyName, pageRequest);
 	}
 
 	@Override
 	public Page<Job> getEverGreenJobsByCompany(String userEmail, boolean status, int page, int size, String sortBy,
 			String sortOrder) {
-		
+
 		logger.info("class:: JobServicImpl -> method  getEverGreenJobsByCompany() :: userEmail :  "+userEmail);
 
 		PageRequest pageRequest;
@@ -444,7 +445,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Page<Job> candiEvergreenJobs(int page, int size, String sortBy, String sortOrder) {
-		
+
 		logger.info("class:: JobServicImpl -> method candiEvergreenJobs() :: user : Candidate  ");
 		PageRequest pageRequest;
 
@@ -461,7 +462,7 @@ public class JobServiceImpl implements JobService {
 
 	@Override
 	public Page<Job> candiRegularJobs(String jobCategory, int page, int size, String sortBy, String sortOrder) {
-		
+
 		logger.info("class:: JobServicImpl -> method candiRegularJobs() :: jobCategory :  "+jobCategory);
 		PageRequest pageRequest;
 
@@ -531,7 +532,7 @@ public class JobServiceImpl implements JobService {
 	@Override
 	public Page<Job> getRegularJobsByAllHrsInCompany(String userEmail, boolean status, int page, int size, String sortBy,
 			String sortOrder) {
-		
+
 		logger.info("class:: JobServicImpl -> method getRegularJobsByAllHrsInCompany() :: userEmail :   "+userEmail);
 		PageRequest pageRequest;
 		String company = userRepository.getCompanyByEmail(userEmail);

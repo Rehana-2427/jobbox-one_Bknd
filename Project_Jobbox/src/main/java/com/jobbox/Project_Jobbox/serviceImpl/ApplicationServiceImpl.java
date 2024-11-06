@@ -351,6 +351,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 	public Application applyDreamCompany(int userId, String companyName,String jobRole, Date appliedOn, long resumeId) {
 
 		logger.info("class:: ApplicationServiceImpl -> method applyDreamCompany ::{ userId : "+ userId+" companyName : "+companyName+" jobRole : "+jobRole+" Date : "+appliedOn+" resumeId : "+resumeId+" }");
+		
+		boolean isApplied=applicationRepository.findIsAppliedDreamJob(userId,companyName);
+		if(isApplied)
+			return null;
+		else {
 		Application app = new Application();
 		app.setCandidateId(userId);
 		app.setCompanyName(companyName);
@@ -381,6 +386,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 		emailService.sendEmail(toEmail, subject, body);
 
 		return app;
+		}
 	}
 
 	@Override

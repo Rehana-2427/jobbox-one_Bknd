@@ -288,5 +288,12 @@ public class UserController {
 		User user = service.getUser(candidateId);
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
+	
+	
+	@PutMapping("/updateCandidate")
+	public ResponseEntity<User> updateCandidate(@RequestParam int userId, @RequestParam String newName) {
+		User updateCandidate = service.updateCandidate(userId, newName);
+		return ResponseEntity.ok(updateCandidate);
+	}
 
 }
