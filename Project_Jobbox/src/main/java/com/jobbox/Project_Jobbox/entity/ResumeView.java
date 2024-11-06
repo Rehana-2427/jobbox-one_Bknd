@@ -21,7 +21,7 @@ public class ResumeView {
 	private int hrId; // HR who viewed the resume
 	private int candidateId; // Candidate whose resume is viewed
 	private LocalDateTime viewedOn; // Timestamp when viewed
-	
+
 	
 	public int getRid() {
 		return rid;

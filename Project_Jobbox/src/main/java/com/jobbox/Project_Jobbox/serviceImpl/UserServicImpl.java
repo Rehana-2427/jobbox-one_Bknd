@@ -304,6 +304,30 @@ public class UserServicImpl implements UserService, UserDetailsService {
 		return user;
 	}
 
+	 @Override
+	    public User updateUserDetails(User user) {
+	        logger.info("class:: UserServiceImpl -> method updateUserData :: Received user data for update: " + " " + user);
+
+	        // Find the user by email
+	        User existingUser = repository.findUserByEmail(user.getUserEmail());
+
+	        // Verify that the current password matches the existing password
+	        if (!bCryptPasswordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
+	            throw new RuntimeException("Incorrect current password");
+	        }
+
+	        // Update the password with the new encoded password if match is successful
+	        existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword())); // Update with new password
+	        existingUser.setUserName(user.getUserName());
+
+	        // Save updated user data
+	        repository.save(existingUser);
+
+	        return existingUser;
+	    }
+
+
+	
 	@Override
 	public Map<Integer, Double> getCountValidateUserByEachMonth() {
 		logger.info("class:: UserServicImpl -> method getCountValidateUserByEachMonth :: userEmail {}, newpasswrod {} + Admin" );
@@ -386,5 +410,6 @@ public class UserServicImpl implements UserService, UserDetailsService {
 		System.out.println(user);
 		return user;
 	}
+
 
 }

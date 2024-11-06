@@ -59,7 +59,11 @@ public interface UserService {
 
 	User checkUserByEmail(String userEmail);
 
+
 	User updateCandidate(int userId, String newName);
+
+	User updateUserDetails(User user);
+
 
 //	String findUserPasswordByName(String email);
 //
