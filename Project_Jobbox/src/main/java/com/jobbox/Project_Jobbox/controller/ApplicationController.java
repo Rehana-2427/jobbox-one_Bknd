@@ -252,9 +252,9 @@ public class ApplicationController {
 	@GetMapping("/applicationsBySearch")
 	public ResponseEntity<Page<Application>> getApplicationsByStatus(@RequestParam String searchStatus,
 			@RequestParam int userId, @RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "5") int pageSize) {
+			@RequestParam(defaultValue = "5") int pageSize,@RequestParam(required = false) String sortBy, @RequestParam(required = false) String sortOrder,@RequestParam(defaultValue = "all") String filter) {
 		Page<Application> applications = applicationService.getApplicationsByStatus(searchStatus, userId, page,
-				pageSize);
+				pageSize,sortBy,sortOrder,filter);
 		return new ResponseEntity<Page<Application>>(applications, HttpStatus.OK);
 	}
 

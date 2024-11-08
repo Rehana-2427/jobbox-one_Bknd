@@ -57,7 +57,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	@Query("SELECT app FROM Application app WHERE (app.applicationStatus LIKE %?1% OR app.companyName LIKE %?1% OR app.jobRole LIKE %?1%) AND app.candidateId = ?2")
 	Page<Application> getApplicationByStatus(String searchStatus, int userId, PageRequest pageRequest);
 
-	@Query("SELECT app FROM Application app WHERE app.applicationStatus = ?1 AND app.candidateId = ?2")
+	@Query("SELECT app FROM Application app WHERE (app.applicationStatus LIKE %?1% OR app.companyName LIKE %?1% OR app.jobRole LIKE %?1%) AND app.candidateId = ?2")
 	Page<Application> getApplicationByApplicationStatus(String searchStatus, int userId, PageRequest pageRequest);
 
 	@Query("select app from Application app where app.jobId=?1 AND app.applicationStatus=?2")
@@ -130,6 +130,12 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 
 	@Query("SELECT COUNT(a) > 0 FROM Application a WHERE a.candidateId = ?1 AND a.companyName = ?2")
 	boolean findIsAppliedDreamJob(int userId, String companyName);
+	
+	@Query("SELECT app FROM Application app WHERE app.candidateId = ?1 AND app.jobId = 0 AND (app.applicationStatus LIKE %?2% OR app.companyName LIKE %?2% OR app.jobRole LIKE %?2%)")
+	Page<Application> findDreamJobsApplicationsBySearchStatus(int userId, String searchStatus, PageRequest pageRequest);
+
+	@Query("SELECT app FROM Application app WHERE app.jobId = ?1 AND app.candidateId = ?2 AND (app.applicationStatus LIKE %?3% OR app.companyName LIKE %?3% OR app.jobRole LIKE %?3%)")
+	Application getApplicationByJobIdAndCandidateIdAndSearchStatus(int jobId, int userId, String searchStatus);
 
 
 	

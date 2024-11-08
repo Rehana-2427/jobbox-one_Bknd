@@ -86,4 +86,6 @@ public interface JobService {
 			String sortOrder);
 
 	Page<Job> getJobsByHrEmailForApplication(String userEmail, int page, int size, String sortBy, String sortOrder);
+
+	// Page<Job> findJobs(String search, int page, int size, String sortBy, String sortOrder, int userId, String filter);
 }

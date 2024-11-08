@@ -37,7 +37,7 @@ public interface ApplicationService {
 	Page<Application> getPaginationApplicationsByCandidateId(int userId, int page, int pageSize, String sortBy,
 			String sortOrder, String filter);
 
-	Page<Application> getApplicationsByStatus(String searchStatus, int userId, int page, int pageSize);
+	Page<Application> getApplicationsByStatus(String searchStatus, int userId, int page, int pageSize, String sortBy, String sortOrder, String filter);
 
 	Page<Application> getFilterApplicationsWithPagination(int jobId, String filterStatus, int page, int size);
 

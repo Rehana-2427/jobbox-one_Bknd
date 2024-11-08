@@ -458,15 +458,91 @@ public class ApplicationServiceImpl implements ApplicationService {
 	
 	
 	@Override
-	public Page<Application> getApplicationsByStatus(String searchStatus, int userId, int page, int pageSize) {
+	public Page<Application> getApplicationsByStatus(String searchStatus, int userId, int page, int pageSize,String sortBy, String sortOrder, String filter) {
 		// TODO Auto-generated method stub
 		logger.info("class:: ApplicationServiceImpl -> method getApplicationsByStatus ::{ userId : "+ userId+" searchStatus"+searchStatus+" }");
-		PageRequest pageRequest = PageRequest.of(page, pageSize);
-		if (searchStatus.equals("Shortlisted"))
+		PageRequest pageRequest=null;
+
+		if (sortBy == null || sortBy.isEmpty()) {
+			pageRequest = PageRequest.of(page, pageSize); // No sorting
+		} else {
+			Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+					: Sort.by(sortBy).descending();
+			pageRequest = PageRequest.of(page, pageSize, sort);
+		}
+		
+		if (searchStatus.equals("Shortlisted") && filter.equals("all"))
 			return applicationRepository.getApplicationByApplicationStatus(searchStatus, userId, pageRequest);
 		else
-			return applicationRepository.getApplicationByStatus(searchStatus, userId, pageRequest);
+			return applicationBySearchStatusWithFilter(searchStatus,userId,filter,pageRequest);
+//			return applicationRepository.getApplicationByStatus(searchStatus, userId, pageRequest);
+			
+		
 	}
+
+
+
+	private Page<Application> applicationBySearchStatusWithFilter(String searchStatus, int userId, String filter,
+			PageRequest pageRequest) {
+		System.out.println("search Status --> " + searchStatus + " Filter --> "+ filter);
+		// TODO Auto-generated method stub
+		 if (filter.equals("Regular Jobs")) {
+		        // Get job IDs that are not evergreen
+			 System.out.println("We are in Regular jobs and status says -> "+filter);
+		        int[] jobIds = jobRepository.findNotEvergreenJobIds();
+		        System.out.println(Arrays.toString(jobIds)); 
+		        return applicationsByCandidateWithSearchStatus(jobIds,userId,searchStatus,pageRequest);
+		        
+		    } else if (filter.equals("Dream Applications")) {
+		    	 System.out.println("We are in Dream aoolications and status says -> "+filter);
+		        return applicationRepository.findDreamJobsApplicationsBySearchStatus(userId,searchStatus, pageRequest);
+
+		    } else if (filter.equals("EverGreen Jobs")) {
+		    	 System.out.println("We are in EverGreen jobs and status says -> "+filter);
+		    	 int[] jobIds = jobRepository.findEvergreenJobIds();
+			        System.out.println(Arrays.toString(jobIds)); 
+			        return applicationsByCandidateWithSearchStatus(jobIds,userId,searchStatus,pageRequest);
+
+		    }
+
+		 System.out.println("We are in base page of all jobs and status says -> "+filter);
+		 return applicationRepository.getApplicationByApplicationStatus(searchStatus, userId, pageRequest);
+	}
+
+
+	
+	private Page<Application> applicationsByCandidateWithSearchStatus(int[] jobIds, int userId,
+			String searchStatus, PageRequest pageRequest) {
+		// TODO Auto-generated method stub
+		  List<Application> applications = new ArrayList<>();
+	        
+	        // Retrieve applications for each job ID
+	        for (int jobId : jobIds) {
+	            Application application = applicationRepository.getApplicationByJobIdAndCandidateIdAndSearchStatus(jobId, userId,searchStatus);
+	            if (application != null) {
+	                applications.add(application);
+	            }
+	        }
+
+	        // Convert List<Application> to Page<Application>
+	        int totalApplications = applications.size();
+	        int start = Math.min(pageRequest.getPageNumber() * pageRequest.getPageSize(), totalApplications);
+	        int end = Math.min(start + pageRequest.getPageSize(), totalApplications);
+	        
+	        List<Application> applicationsPage = applications.subList(start, end);
+	        return new PageImpl<>(applicationsPage, pageRequest, totalApplications);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	@Override
 	public Page<Application> getFilterApplicationsWithPagination(int jobId, String filterStatus, int page, int size) {

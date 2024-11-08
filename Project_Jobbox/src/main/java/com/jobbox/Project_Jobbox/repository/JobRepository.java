@@ -149,4 +149,12 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 	@Query("SELECT job FROM Job job WHERE  job.jobStatus=?1 ORDER BY job.postingDate DESC")
 	Page<Job> findLatestJobs(boolean status, PageRequest pageRequest);
 
+	////////////////////////
+//	@Query("SELECT job FROM Job job WHERE job.jobId NOT IN :jobIds AND job.jobStatus = :isActive AND (job.jobTitle LIKE %:search% OR job.companyName LIKE %:search% OR job.skills LIKE %:search% OR job.jobType LIKE %:search%)")
+//	Page<Job> findEverApplyWithUser(List<Integer> jobIds, boolean isActive, String search, PageRequest pageRequest);
+//
+//
+//	@Query("SELECT job FROM Job job WHERE job.jobId IN :jobIds AND job.jobStatus = :isActive AND (job.jobTitle LIKE %:search% OR job.companyName LIKE %:search% OR job.skills LIKE %:search% OR job.jobType LIKE %:search%)")
+//	Page<Job> findEverAppliedWithUser(List<Integer> jobIds, boolean isActive, String search, PageRequest pageRequest);
+
 }
