@@ -295,6 +295,15 @@ public class ApplicationController {
 	        
 	        return new ResponseEntity<Page<Application>>( applicationService.getEvergreenApplications(email, selectedRole, page, pageSize, sortOrder, sortedColumn),HttpStatus.OK);
 	    }
+	  
+	 
+	  
+	  @GetMapping("/checkAppliedCompanies")
+		public ResponseEntity<List<String>>  checkAppliedCompanies(@RequestParam int userId,@RequestParam String[] companies,
+				@RequestParam String jobRole) {
+			List<String> responseData = applicationService.checkAppliedCompanies(userId,companies,jobRole);
+			return ResponseEntity.ok(responseData);
+		}
 }
 
 

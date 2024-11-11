@@ -128,8 +128,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	@Query("SELECT a FROM Application a WHERE a.candidateId = ?1")
 	Page<Application> findEvergreenJobsApplications(int userId, PageRequest pageRequest);
 
-	@Query("SELECT COUNT(a) > 0 FROM Application a WHERE a.candidateId = ?1 AND a.companyName = ?2")
-	boolean findIsAppliedDreamJob(int userId, String companyName);
+	@Query("SELECT COUNT(a) > 0 FROM Application a WHERE a.candidateId = ?1 AND a.companyName = ?2 AND (?3 IS NULL OR a.jobRole = ?3)")
+	boolean findIsAppliedDreamJob(int userId, String companyName, @Param("jobRole") String jobRole);
+
 	
 	@Query("SELECT app FROM Application app WHERE app.candidateId = ?1 AND app.jobId = 0 AND (app.applicationStatus LIKE %?2% OR app.companyName LIKE %?2% OR app.jobRole LIKE %?2%)")
 	Page<Application> findDreamJobsApplicationsBySearchStatus(int userId, String searchStatus, PageRequest pageRequest);

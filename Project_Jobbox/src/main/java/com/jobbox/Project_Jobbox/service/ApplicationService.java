@@ -68,4 +68,6 @@ public interface ApplicationService {
 
 	Page<Application> getEvergreenApplications(String email, String selectedRole, int page, int pageSize, String sortOrder,
 			String sortedColumn);
+
+	List<String> checkAppliedCompanies(int userId, String[] companies, String jobRole);
 }

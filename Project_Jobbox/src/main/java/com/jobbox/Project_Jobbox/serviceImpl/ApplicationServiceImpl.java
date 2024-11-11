@@ -352,7 +352,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 		logger.info("class:: ApplicationServiceImpl -> method applyDreamCompany ::{ userId : "+ userId+" companyName : "+companyName+" jobRole : "+jobRole+" Date : "+appliedOn+" resumeId : "+resumeId+" }");
 		
-		boolean isApplied=applicationRepository.findIsAppliedDreamJob(userId,companyName);
+		boolean isApplied=applicationRepository.findIsAppliedDreamJob(userId,companyName,jobRole);
 		if(isApplied)
 			return null;
 		else {
@@ -718,5 +718,27 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 		// Create a PageImpl with the list, total elements, and pageable
 		return new PageImpl<>(evergreenApplicationsByCompany, pageable, totalElements);	}
+
+	@Override
+	public 	List<String> checkAppliedCompanies(int userId, String[] companies ,String jobRole){
+		// TODO Auto-generated method stub
+		List<String> hasApplied=new ArrayList<>();
+		List<String> notApplied=new ArrayList<>();
+		for(String company : companies) {
+			boolean isApplied=applicationRepository.findIsAppliedDreamJob(userId, company,jobRole);
+			if(isApplied) {
+				hasApplied.add(company);
+				System.out.println( hasApplied.toString());
+			}else {
+				notApplied.add(company);	
+				System.out.println( notApplied.toString());
+			}
+		}
+		if(hasApplied.size()>0) {
+			return hasApplied;
+		}
+		else
+		return null;
+	}
 
 }
