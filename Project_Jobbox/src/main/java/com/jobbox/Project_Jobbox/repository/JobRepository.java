@@ -149,6 +149,16 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 	@Query("SELECT job FROM Job job WHERE  job.jobStatus=?1 ORDER BY job.postingDate DESC")
 	Page<Job> findLatestJobs(boolean status, PageRequest pageRequest);
 
+	
+	@Query("SELECT job FROM Job job WHERE (job.jobTitle LIKE %?1% OR job.companyName LIKE %?1% OR job.skills LIKE %?1% OR job.jobType LIKE %?1% OR job.location LIKE %?1%) AND job.jobStatus = ?2")
+	Page<Job> searchAllJobs(String search, boolean status, PageRequest pageRequest);
+
+	@Query("SELECT job FROM Job job WHERE (job.jobTitle LIKE %:search% OR job.companyName LIKE %:search% OR job.skills LIKE %:search% OR job.jobType LIKE %:search% OR job.location LIKE %:search%) AND job.jobId NOT IN :userJobIds AND job.jobStatus = :isActive")
+	Page<Job> searchJobsNotAssociatedWithUser(@Param("search") String search, @Param("userJobIds") List<Integer> userJobIds, @Param("isActive") boolean isActive, PageRequest pageRequest);
+
+	@Query("SELECT job FROM Job job WHERE job.jobId = :jobId AND (job.jobTitle LIKE %:search% OR job.companyName LIKE %:search% OR job.skills LIKE %:search% OR job.jobType LIKE %:search% OR job.location LIKE %:search%) AND job.jobStatus = :isActive")
+	Job getJobByJobIdAndSearch(@Param("jobId") int jobId, @Param("search") String search, @Param("isActive") boolean isActive);
+
 	////////////////////////
 //	@Query("SELECT job FROM Job job WHERE job.jobId NOT IN :jobIds AND job.jobStatus = :isActive AND (job.jobTitle LIKE %:search% OR job.companyName LIKE %:search% OR job.skills LIKE %:search% OR job.jobType LIKE %:search%)")
 //	Page<Job> findEverApplyWithUser(List<Integer> jobIds, boolean isActive, String search, PageRequest pageRequest);

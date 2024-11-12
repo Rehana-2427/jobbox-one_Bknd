@@ -635,7 +635,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 		logger.info("class:: ApplicationServiceImpl -> method  getDreamApplicationByCandidateId ::{ userId : "+ userId+" companyName : "+companyName+" }");
 		int jodId = 0;
-		Application applicationByJobIdAndCandidateId = applicationRepository
+		List<Application> applicationByJobIdAndCandidateId = applicationRepository
 				.getDreampplicationByJobIdAndCandidateId(jodId, userId, companyName);
 		if (applicationByJobIdAndCandidateId != null)
 			return true;

@@ -279,6 +279,23 @@ public class JobController {
 		return new ResponseEntity<Page<Job>>(jobsPagination, HttpStatus.OK);
 	}
 	
+	
+	
+	@GetMapping("/searchJobsWithFilter")
+	public ResponseEntity<Page<Job>> searchJobsWithFilter(
+	        @RequestParam String search,
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "5") int size,
+	        @RequestParam(required = false) String sortBy,
+	        @RequestParam(required = false) String sortOrder,
+	        @RequestParam(defaultValue = "0") int userId,
+	        @RequestParam(required = false, defaultValue = "all") String filterStatus) {
+
+	    Page<Job> jobs = jobService.findJobswithfilter(search, page, size, sortBy, sortOrder, userId, filterStatus);
+	    return new ResponseEntity<>(jobs, HttpStatus.OK);
+	}
+
+	
 	@GetMapping("/getCandiEvergreenJobsByFiltering")
 	public ResponseEntity<Page<Job>> getCandiEvergreenJobsByFiltering(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size, @RequestParam(required = false) String sortBy,

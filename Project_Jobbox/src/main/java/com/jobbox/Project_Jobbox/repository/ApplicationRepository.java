@@ -93,7 +93,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	int getCountOfTotalShortlistedApplicationCompany(int userId, String companyName, String shortList);
 
 	@Query("SELECT a FROM Application a WHERE a.jobId = ?1 AND a.candidateId = ?2 AND a.companyName=?3")
-	Application getDreampplicationByJobIdAndCandidateId(int jodId, int userId, String companyName);
+	List<Application> getDreampplicationByJobIdAndCandidateId(int jodId, int userId, String companyName);
 
 	@Query("SELECT a FROM Application a WHERE a.companyName=?1 And a.jobId = ?2")
 	Page<Application> getApplicationsByCompany(String companyName, int jobId, PageRequest pageRequest);

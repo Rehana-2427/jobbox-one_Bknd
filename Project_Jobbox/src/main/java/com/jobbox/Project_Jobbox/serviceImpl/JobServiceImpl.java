@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -561,6 +563,44 @@ public class JobServiceImpl implements JobService {
 			pageRequest = PageRequest.of(page, size, sort);
 		}
 		return repository.getJobsByHrEmailApplication(userEmail, pageRequest);
+	}
+
+	@Override
+	public Page<Job> findJobswithfilter(String search, int page, int size, String sortBy, String sortOrder, int userId,
+			String filterStatus) {
+		 logger.info("class:: JobServicImpl -> method  findJobs() :: search {}", search);
+		    
+		    PageRequest pageRequest;
+		    if (sortBy == null || sortBy.isEmpty()) {
+		        pageRequest = PageRequest.of(page, size); // No sorting
+		    } else {
+		        Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+		                : Sort.by(sortBy).descending();
+		        pageRequest = PageRequest.of(page, size, sort);
+		    }
+		    
+		    if ("all".equalsIgnoreCase(filterStatus)) {
+		        return repository.searchAllJobs(search, true, pageRequest);
+		    } else if ("Apply".equalsIgnoreCase(filterStatus)) {
+		        List<Integer> jobIdsByUserId = applicationRepository.getJobIdsByUserId(userId);
+		        return repository.searchJobsNotAssociatedWithUser(search, jobIdsByUserId, true, pageRequest);
+		    } else if ("Applied".equalsIgnoreCase(filterStatus)) {
+		        List<Integer> jobIdsByUserId = applicationRepository.getJobIdsByUserId(userId);
+//		        List<Job> jobs = jobIdsByUserId.stream()
+//		            .map(jobId -> repository.getJobByJobId(jobId, true))
+//		            .filter(Objects::nonNull)
+//		            .collect(Collectors.toList());
+		        List<Job> jobs = jobIdsByUserId.stream()
+		                .map(jobId -> repository.getJobByJobIdAndSearch(jobId, search, true))
+		                .filter(Objects::nonNull)
+		                .collect(Collectors.toList());
+
+		        int start = (int) pageRequest.getOffset();
+		        int end = Math.min((start + pageRequest.getPageSize()), jobs.size());
+		        return new PageImpl<>(jobs.subList(start, end), pageRequest, jobs.size());
+		    }
+		    
+		    return Page.empty();
 	}
 
 //	@Override
