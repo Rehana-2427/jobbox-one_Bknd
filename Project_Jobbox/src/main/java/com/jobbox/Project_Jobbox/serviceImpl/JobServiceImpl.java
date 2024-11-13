@@ -586,10 +586,7 @@ public class JobServiceImpl implements JobService {
 		        return repository.searchJobsNotAssociatedWithUser(search, jobIdsByUserId, true, pageRequest);
 		    } else if ("Applied".equalsIgnoreCase(filterStatus)) {
 		        List<Integer> jobIdsByUserId = applicationRepository.getJobIdsByUserId(userId);
-//		        List<Job> jobs = jobIdsByUserId.stream()
-//		            .map(jobId -> repository.getJobByJobId(jobId, true))
-//		            .filter(Objects::nonNull)
-//		            .collect(Collectors.toList());
+
 		        List<Job> jobs = jobIdsByUserId.stream()
 		                .map(jobId -> repository.getJobByJobIdAndSearch(jobId, search, true))
 		                .filter(Objects::nonNull)
