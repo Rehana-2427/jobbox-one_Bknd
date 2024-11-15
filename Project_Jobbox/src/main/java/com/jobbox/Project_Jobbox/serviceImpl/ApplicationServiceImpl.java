@@ -637,7 +637,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 		int jodId = 0;
 		List<Application> applicationByJobIdAndCandidateId = applicationRepository
 				.getDreampplicationByJobIdAndCandidateId(jodId, userId, companyName);
-		if (applicationByJobIdAndCandidateId != null)
+		if (applicationByJobIdAndCandidateId.size()>0)
 			return true;
 		else
 			return false;

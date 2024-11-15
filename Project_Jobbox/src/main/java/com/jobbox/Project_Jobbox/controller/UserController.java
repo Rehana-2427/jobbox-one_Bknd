@@ -221,10 +221,11 @@ public class UserController {
 		Page<User> usersList = null;
 		try {
 			usersList = service.getHRListEachCompany(userEmail, page, size, sortBy, sortOrder);
+			System.out.println(usersList.toString() + usersList.getSize());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new ResponseEntity<>(usersList, HttpStatus.OK);
+		return new ResponseEntity<Page<User>>(usersList, HttpStatus.OK);
 	}
 
 	@GetMapping("/getUser")
