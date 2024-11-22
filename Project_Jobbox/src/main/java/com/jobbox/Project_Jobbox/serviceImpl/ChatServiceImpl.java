@@ -28,6 +28,7 @@ public class ChatServiceImpl implements ChatService {
 		chat.setApplicationId(applicationId);
 		chat.setHrMessage(hrchat);
 		chat.setCreatedAt(LocalDateTime.now());
+		chat.setHRRead(true);
 		chatRepository.save(chat);
 		return chat;
 	}
@@ -40,6 +41,7 @@ public class ChatServiceImpl implements ChatService {
 		chat.setApplicationId(applicationId);
 		chat.setCandidateMessage(candidatechat);
 		chat.setCreatedAt(LocalDateTime.now());
+		chat.setCandidateRead(true);
 		chatRepository.save(chat);
 		return chat;
 	}
@@ -99,6 +101,24 @@ public class ChatServiceImpl implements ChatService {
 			chatRepository.save(chat);
 		}
 
+	}
+
+	
+	
+	
+	
+	
+	@Override
+	public Chat saveMessage(Chat message) {
+		// TODO Auto-generated method stub
+		message.setCreatedAt(LocalDateTime.now());
+		 return chatRepository.save(message);
+	}
+
+	@Override
+	public List<Chat> getMessagesByApplicationId(int applicationId) {
+		// TODO Auto-generated method stub
+		return chatRepository.fetchChat(applicationId);
 	}
 
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 @EnableScheduling
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.jobbox")
 public class ProjectJobboxApplication {
 
 	public static void main(String[] args) {

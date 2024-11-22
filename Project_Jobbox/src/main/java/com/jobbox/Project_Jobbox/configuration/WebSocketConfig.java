@@ -18,7 +18,20 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// Register WebSocket endpoint for clients to connect to
-		registry.addEndpoint("/ws").setAllowedOriginPatterns("*") // Allow all origins, adjust as needed
+		registry.addEndpoint("/api/jobbox/ws").setAllowedOriginPatterns("http://localhost:3000","http://51.79.18.21:3000") // Allow all origins, adjust as needed
 				.withSockJS(); // Enable SockJS fallback options
 	}
+	
+//	 @Override
+//	    public void configureMessageBroker(MessageBrokerRegistry config) {
+//	        // Enable a simple memory-based message broker to carry messages back to the client
+//	        config.enableSimpleBroker("/topic"); // Where the messages will be sent to
+//	        config.setApplicationDestinationPrefixes("/app"); // Prefix for sending messages
+//	    }
+//
+//	    @Override
+//	    public void registerStompEndpoints(StompEndpointRegistry registry) {
+//	        // Register the "/ws" endpoint for clients to connect to
+//	        registry.addEndpoint("/ws").withSockJS();
+//	    }
 }

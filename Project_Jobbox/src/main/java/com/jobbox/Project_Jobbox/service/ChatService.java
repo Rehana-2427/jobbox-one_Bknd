@@ -20,4 +20,8 @@ public interface ChatService {
 
 	void markHRMessagesAsRead(int applicationId);
 
+	Chat saveMessage(Chat message);
+
+	List<Chat> getMessagesByApplicationId(int applicationId);
+
 }

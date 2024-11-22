@@ -70,7 +70,7 @@ public class CompanyController {
 			//			companies.getContent().forEach(company -> {
 			//				System.out.println("Company: " + company);
 			//			});
-			return new ResponseEntity<>(companies, HttpStatus.OK);
+			return new ResponseEntity<Page<Company>>(companies, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
