@@ -34,7 +34,6 @@ public class JobController {
 	@PostMapping("/postingJob")
 	public ResponseEntity<Job> postJob(@RequestBody Job job) {
 	    System.out.println("Job Category: " + job.getJobCategory()); // Logging jobCategory
-
 		return new ResponseEntity<Job>(jobService.postJob(job), HttpStatus.CREATED);
 	}
 

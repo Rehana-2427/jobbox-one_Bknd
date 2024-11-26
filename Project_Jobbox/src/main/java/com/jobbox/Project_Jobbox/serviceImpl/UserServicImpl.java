@@ -206,6 +206,7 @@ public class UserServicImpl implements UserService, UserDetailsService {
 			pageRequest = PageRequest.of(page, size, sort);
 		}
 
+		System.out.println(repository.findHrBycomapnyName(userEmail, pageRequest));
 		return repository.findHrBycomapnyName(userEmail, pageRequest);
 	}
 

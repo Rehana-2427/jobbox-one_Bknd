@@ -20,4 +20,14 @@ public interface ChatService {
 
 	void markHRMessagesAsRead(int applicationId);
 
+	Chat saveMessage(Chat message);
+
+	List<Chat> getMessagesByApplicationId(int applicationId);
+
+//	Chat updateChatMessage(Long chatId, String hrMessage, String candidateMessage);
+
+	void deleteChatMessage(Long chatId);
+
+	void updateChatMessage(Long chatId, Chat updatedChat);
+
 }

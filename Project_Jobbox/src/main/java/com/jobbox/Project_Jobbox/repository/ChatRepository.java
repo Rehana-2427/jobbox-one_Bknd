@@ -25,5 +25,7 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
 
 	@Query("SELECT chat from Chat chat where chat.applicationId=?1 And chat.isCandidateRead=?2")
 	List<Chat> fetchCandidateNotReadChat(int applicationId, boolean b);
+	
+	
 
 }
