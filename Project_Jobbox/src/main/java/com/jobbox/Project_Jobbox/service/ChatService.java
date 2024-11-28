@@ -30,4 +30,6 @@ public interface ChatService {
 
 	void updateChatMessage(Long chatId, Chat updatedChat);
 
+	boolean deleteMessage(Long chatId);
+
 }

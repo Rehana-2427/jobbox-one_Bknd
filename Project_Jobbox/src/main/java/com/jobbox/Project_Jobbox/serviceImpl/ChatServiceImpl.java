@@ -149,7 +149,8 @@ public class ChatServiceImpl implements ChatService {
 	public void updateChatMessage(Long chatId, Chat updatedChat) {
 		// Find the existing chat message by ID
 		Chat existingChat = chatRepository.getById(chatId);
-				
+			
+		System.out.println("existingChat" + existingChat.getCreatedAt() );
 
 		// Update the necessary fields
 		if (updatedChat.getHrMessage() != null) {
@@ -158,8 +159,9 @@ public class ChatServiceImpl implements ChatService {
 		if (updatedChat.getCandidateMessage() != null) {
 			existingChat.setCandidateMessage(updatedChat.getCandidateMessage());
 		}
-		if (updatedChat.getCreatedAt() != null) {
-			existingChat.setCreatedAt(updatedChat.getCreatedAt());
+		System.out.println("updatedChat  "+updatedChat.getCreatedAt());
+		if (updatedChat.getCreatedAt() == null) {
+			existingChat.setCreatedAt(existingChat.getCreatedAt());
 		}
 
 		// Save the updated chat
@@ -170,11 +172,19 @@ public class ChatServiceImpl implements ChatService {
 	public void deleteChatMessage(Long chatId) {
 		// TODO Auto-generated method stub
 		if (chatRepository.existsById(chatId)) {
-			chatRepository.deleteById(chatId);
-			;
+			chatRepository.deleteById(chatId);			
 		}
 
 	}
-
+	@Override
+	 public boolean deleteMessage(Long chatId) {
+	        // Check if the message exists
+	        if (chatRepository.existsById(chatId)) {
+	            // Delete the message from the database
+	        	chatRepository.deleteById(chatId);
+	            return true;
+	        }
+	        return false;
+	    }
 
 }
