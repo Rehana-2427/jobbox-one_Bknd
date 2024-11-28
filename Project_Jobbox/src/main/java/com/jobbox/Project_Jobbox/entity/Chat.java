@@ -2,6 +2,8 @@ package com.jobbox.Project_Jobbox.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +17,9 @@ public class Chat {
     private int applicationId;
     private String hrMessage;
     private String candidateMessage;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
     private LocalDateTime createdAt;
+
     private boolean isHRRead;
     private boolean isCandidateRead;
 	public long getChatId() {

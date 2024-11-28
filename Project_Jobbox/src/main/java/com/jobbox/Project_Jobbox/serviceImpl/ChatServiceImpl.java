@@ -149,7 +149,6 @@ public class ChatServiceImpl implements ChatService {
 	public void updateChatMessage(Long chatId, Chat updatedChat) {
 		// Find the existing chat message by ID
 		Chat existingChat = chatRepository.getById(chatId);
-				
 
 		// Update the necessary fields
 		if (updatedChat.getHrMessage() != null) {
@@ -158,9 +157,9 @@ public class ChatServiceImpl implements ChatService {
 		if (updatedChat.getCandidateMessage() != null) {
 			existingChat.setCandidateMessage(updatedChat.getCandidateMessage());
 		}
-		if (updatedChat.getCreatedAt() != null) {
-			existingChat.setCreatedAt(updatedChat.getCreatedAt());
-		}
+		// Do not update the createdAt timestamp
+		 existingChat.setCreatedAt(existingChat.getCreatedAt()); // This line is
+
 
 		// Save the updated chat
 		chatRepository.save(existingChat);
@@ -175,6 +174,5 @@ public class ChatServiceImpl implements ChatService {
 		}
 
 	}
-
 
 }
