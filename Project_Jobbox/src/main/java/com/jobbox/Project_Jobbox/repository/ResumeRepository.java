@@ -45,6 +45,9 @@ public interface ResumeRepository extends JpaRepository<Resume, Integer> {
 	@Query("SELECT r FROM Resume r WHERE r.id = ?1")
 	Resume getResumeById(Long resumeId);
 
+    @Query("SELECT SUM(r.viewCount) FROM Resume r WHERE r.userId = :userId")
+	Integer getTotalViewCountByUserId(int userId);
+
 
 
 }
