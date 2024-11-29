@@ -29,4 +29,8 @@ public interface ResumeService {
 
 	Resume getResumeById(long resumeId);
 
+	Resume incrementViewCount(Long resumeId,String action);
+
+	ResponseEntity<Integer> getTotalViewCountByUserId(int userId);
+
 }

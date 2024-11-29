@@ -1,5 +1,7 @@
 package com.jobbox.Project_Jobbox.entity;
 
+import java.util.Arrays;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,6 +22,12 @@ public class Resume {
 	private String message;
 
 	private String fileType;
+	
+    private String action; // "download", "brief", "link"
+    
+    @Column(nullable = false)
+    private int viewCount = 0; // Tracks the number of times the resume is viewed
+	
 	private Boolean resumeStatus = true; // Default value
 	private int userId;
 	@Lob
@@ -89,19 +97,50 @@ public class Resume {
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
 	}
+	
 
-	public Resume(Long id, String fileName, String message, String fileType, int userId, byte[] content) {
-		super();
-		this.id = id;
-		this.fileName = fileName;
-		this.message = message;
-		this.fileType = fileType;
-		this.userId = userId;
-		this.content = content;
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+	
+
+	public int getViewCount() {
+		return viewCount;
+	}
+
+	public void setViewCount(int viewCount) {
+		this.viewCount = viewCount;
 	}
 
 	public Resume() {
 		super();
 	}
+
+	public Resume(Long id, String fileName, String message, String fileType, String action, int viewCount,
+			Boolean resumeStatus, int userId, byte[] content) {
+		super();
+		this.id = id;
+		this.fileName = fileName;
+		this.message = message;
+		this.fileType = fileType;
+		this.action = action;
+		this.viewCount = viewCount;
+		this.resumeStatus = resumeStatus;
+		this.userId = userId;
+		this.content = content;
+	}
+
+	@Override
+	public String toString() {
+		return "Resume [id=" + id + ", fileName=" + fileName + ", message=" + message + ", fileType=" + fileType
+				+ ", action=" + action + ", viewCount=" + viewCount + ", resumeStatus=" + resumeStatus + ", userId="
+				+ userId + ", content=" + Arrays.toString(content) + "]";
+	}
+	
+	
 
 }

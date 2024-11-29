@@ -30,7 +30,7 @@ public class ResumeController {
 
 	@Autowired
 	public ResumeService resumeService;
-	
+
 	@PostMapping("/uploadResume")
 	public ResponseEntity<String> uploadResume(@RequestParam("userId") int userId,
 			@RequestParam("fileType") String fileType,
@@ -82,8 +82,6 @@ public class ResumeController {
 		return resumeService.downloadResumeByresumeId(resumeId);
 	}
 
-
-
 	@GetMapping("/getResumeMessageById")
 	public ResponseEntity<String> getResumeMessageById(@RequestParam long resumeId) {
 		return new ResponseEntity<String>(resumeService.getResumeMessageById(resumeId), HttpStatus.OK);
@@ -108,6 +106,23 @@ public class ResumeController {
 		return new ResponseEntity<Resume>(resumeService.getResumeById(resumeId), HttpStatus.OK);
 
 	}
+
+	@PostMapping("/resume-increment-view")
+	public ResponseEntity<Resume> incrementResumeView(@RequestParam Long resumeId, @RequestParam String action) {
+		if (!List.of("brief", "link", "download").contains(action)) {
+			return ResponseEntity.badRequest().body(null);
+		}
+
+		// Call the service to update the view count
+		Resume updatedResume = resumeService.incrementViewCount(resumeId, action);
+		return ResponseEntity.ok(updatedResume);
+	}
 	
+	 @GetMapping("/resume-view-count")
+    public ResponseEntity<Integer> getTotalViewCount(@RequestParam int userId) {
+    	
+        return resumeService.getTotalViewCountByUserId(userId);
+
+    }
 
 }

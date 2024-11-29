@@ -120,4 +120,26 @@ public class ResumeServiceImpl implements ResumeService {
 		return resumeRepository.getResumeById(resumeId);
 	}
 
+	@Override
+	public Resume incrementViewCount(Long resumeId, String action) {
+		// TODO Auto-generated method stub
+		Resume resume = resumeRepository.getResumeById(resumeId);
+		resume.setViewCount(resume.getViewCount() + 1);
+		resume.setAction(action);
+		return resumeRepository.save(resume);
+
+	}
+
+	@Override
+	public ResponseEntity<Integer> getTotalViewCountByUserId(int userId) {
+		// TODO Auto-generated method stub
+		Integer resumeViewCount = resumeRepository.getTotalViewCountByUserId(userId);
+		// Return the total view count or a 404 if not found
+		if (resumeViewCount != null) {
+			return ResponseEntity.ok(resumeViewCount);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
 }
