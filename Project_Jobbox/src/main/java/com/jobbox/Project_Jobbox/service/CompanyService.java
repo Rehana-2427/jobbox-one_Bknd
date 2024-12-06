@@ -28,7 +28,7 @@ public interface CompanyService {
 
 	Integer countTotalCompanies();
 
-	Page<Company> findCompanyBySearch(String search, int page, int size);
+	Page<Company> findCompanyBySearch(String search, int page, int size, String sortBy, String sortOrder);
 
 	Integer getCountOfTotalCompany();
 
@@ -69,6 +69,10 @@ public interface CompanyService {
 	List<String> getAllLocations();
 
 	Page<Company> getCompaniesByFilters(String companyType, String industryType, String location, int page, int size);
+
+	List<Company> searchCompanies(String companyName);
+
+	Company mergeCompany(String cmergeWithCompanyName, int companyId);
 
 	
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -77,6 +78,15 @@ public class CompanyController {
 		}
 	}
 
+	@GetMapping("/searchCompany")
+	public ResponseEntity<Page<Company>> displayCompanyBySearch(@RequestParam String search,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size ,
+			@RequestParam(required = false) String sortBy,
+			@RequestParam(required = false) String sortOrder 
+			) {
+
+		return new ResponseEntity<Page<Company>>(service.findCompanyBySearch(search, page, size, sortBy,sortOrder), HttpStatus.OK);
+	}
 	// update company approval status
 	@PutMapping("/updateApproveCompany")
 	public ResponseEntity<String> updateCompany(@RequestParam String companyName, @RequestParam String actionDate,
@@ -150,13 +160,7 @@ public class CompanyController {
 		return new ResponseEntity<Company>(service.findCompanyById(companyId), HttpStatus.OK);
 	}
 
-	@GetMapping("/searchCompany")
-	public ResponseEntity<Page<Company>> displayCompanyBySearch(@RequestParam String search,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size  
-         ) {
 
-		return new ResponseEntity<Page<Company>>(service.findCompanyBySearch(search, page, size), HttpStatus.OK);
-	}
 
 	@GetMapping("/findCompany")
 	public ResponseEntity<Company> displayCompanyByName(@RequestParam String companyName) {
@@ -223,31 +227,65 @@ public class CompanyController {
 		return new ResponseEntity<Page<Company>>(service.findAppliedCompanyByUser(userId,page,size), HttpStatus.OK);
 	}
 
-	
+
 	@GetMapping("/companyTypes")
 	public ResponseEntity<List<String>> getCompanyTypes() {
 		return  new ResponseEntity<List<String>>(service.getAllCompanyTypes(), HttpStatus.OK) ;
 	}
 
-	
+
 	@GetMapping("/industryTypes")
 	public ResponseEntity<List<String>> getIndustryTypes() {
 		return  new ResponseEntity<List<String>>(service.getAllIndustryTypes(), HttpStatus.OK) ;		
 	}
 
-	
+
 	@GetMapping("/locations")
 	public ResponseEntity<List<String>> getLocations() {
 		return  new ResponseEntity<List<String>>(service.getAllLocations(), HttpStatus.OK) ;		
 	}
-	
-	  @GetMapping("/companiesByType")
-	    public Page<Company> companiesByType(
-	            @RequestParam(required = false) String companyType,
-	            @RequestParam(required = false) String industryType,
-	            @RequestParam(required = false) String location,
-	            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size
-	            ) {
-	        return service.getCompaniesByFilters(companyType, industryType, location, page,size);
-	    }
+
+	@GetMapping("/companiesByType")
+	public Page<Company> companiesByType(
+			@RequestParam(required = false) String companyType,
+			@RequestParam(required = false) String industryType,
+			@RequestParam(required = false) String location,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size
+			) {
+		return service.getCompaniesByFilters(companyType, industryType, location, page,size);
+	}
+
+	// Endpoint to search companies by name
+	@GetMapping("/searchCompanyNames")
+	public ResponseEntity<List<Company>> searchCompany(@RequestParam String companyName) {
+		return  new  ResponseEntity<List<Company>>(service.searchCompanies(companyName),HttpStatus.OK);
+	}
+
+	@PutMapping("/mergeCompany")
+	public ResponseEntity<Company> mergeCompany(@RequestParam String mergeWithCompanyName, @RequestParam int companyId ){
+		return new ResponseEntity<Company>(service.mergeCompany(mergeWithCompanyName,companyId),HttpStatus.OK);
+
+	}
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

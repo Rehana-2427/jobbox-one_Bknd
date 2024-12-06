@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jobbox.Project_Jobbox.entity.Application;
 import com.jobbox.Project_Jobbox.entity.Company;
 import com.jobbox.Project_Jobbox.entity.User;
 import com.jobbox.Project_Jobbox.repository.ApplicationRepository;
@@ -168,11 +169,27 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public Page<Company> findCompanyBySearch(String search, int page, int size) {
+	public Page<Company> findCompanyBySearch(String search, int page, int size,String sortBy, String sortOrder) {
 		// TODO Auto-generated method stub
 		logger.info("class:: CompanyServiceImpl -> method  findCompanyBySearch ::{ search : "+search+" }");
-		PageRequest pageRequest = PageRequest.of(page, size);
-		return repository.findCompanyBySearch(search, pageRequest);
+		try {
+			PageRequest pageRequest;
+			if (sortBy == null || sortBy.isEmpty()) {
+				pageRequest = PageRequest.of(page, size); // No sorting
+			} else {
+				Sort.Direction direction = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.Direction.ASC
+						: Sort.Direction.DESC;
+				Sort sort = Sort.by(direction, sortBy);
+				pageRequest = PageRequest.of(page, size, sort);
+			}
+
+			return repository.findCompanyBySearch(search, pageRequest);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Handle the exception or return a default page
+			return Page.empty();
+		}
+		
 	}
 
 	@Override
@@ -444,6 +461,29 @@ public class CompanyServiceImpl implements CompanyService {
 		System.out.println(companyType + industryType + location);
 		 Pageable pageable = PageRequest.of(page, size);
 		return repository.findByFilters(companyType, industryType, location, pageable);
+	}
+
+	@Override
+	public List<Company> searchCompanies(String companyName) {
+		// TODO Auto-generated method stub
+		 return repository.findByNameContainingIgnoreCase(companyName);
+	}
+
+	@Override
+	public Company mergeCompany(String mergeWithCompanyName, int companyId) {
+		// TODO Auto-generated method stub
+
+		String companyName = repository.getCompanyName(companyId);
+		applicationRepository.mergeCompany(mergeWithCompanyName, companyName);
+		Date date = new Date();
+		updateCompanyStatus(companyName,date,"Rejected");
+		
+			return repository.findCompanyByName(companyName);
+		
+//		List<Application> applications=applicationRepository.getApplicationByCompanyId(companyId);
+//		for(Application application :applications) {
+//			application.setcom
+//		}
 	}
 
 

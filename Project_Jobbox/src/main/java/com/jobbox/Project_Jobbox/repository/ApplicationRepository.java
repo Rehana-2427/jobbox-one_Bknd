@@ -7,11 +7,14 @@ import java.util.Map;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.jobbox.Project_Jobbox.entity.Application;
+
+import jakarta.transaction.Transactional;
 
 @Repository
 public interface ApplicationRepository extends JpaRepository<Application, Integer> {
@@ -33,24 +36,24 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 
 	@Query("SELECT COUNT( a.candidateId) FROM Application a WHERE a.hrId = ?1 AND a.applicationStatus=?2")
 	int getCountOfUnderPreviewCandidates(Integer userIdByEmail, String string);
-//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////
 	@Query("select app from Application app where app.companyName=?1 AND app.jobId=?2 AND app.candidateId=?3")
 	List<Application> getApplicationsByCompany(String companyName, int jobId, int candidateId);
-	
+
 	@Query("select app from Application app where app.companyName=?1 AND app.jobId=?2 AND app.candidateId=?3 AND app.applicationStatus=?4")
 	List<Application> getApplicationsByCompany(String companyName, int jobId, Integer candidateId, String filterStatus);
 
 	@Query("SELECT COUNT(a.candidateId) FROM Application a WHERE a.companyName = :companyName AND a.jobId = :jobId")
 	int getCountOfDreamApplications(@Param("companyName") String companyName, @Param("jobId") int jobId);
-///
+	///
 	@Query("select app from Application app where app.companyName=?1 AND app.jobId=?2  AND app.appliedOn BETWEEN ?3 AND ?4 AND app.candidateId=?5")
 	List<Application> getDreamApplicationsWithDateByCompany(String companyName, int jobId, Date fromDate, Date toDate,
 			Integer candidateId);
 	@Query("select app from Application app where (app.jobId=?1 AND app.applicationStatus=?2 AND app.companyName=?3) AND app.appliedOn BETWEEN ?4 AND ?5 AND app.candidateId=?6")
 	List<Application> getFilterDreamApplicationsWithDateByCompany(int jobId, String filterStatus, String companyName,
 			Date fromDate, Date toDate, Integer candidateId);
-	
-	
+
+
 	@Query("SELECT a FROM Application a WHERE a.candidateId = ?1")
 	Page<Application> findAll(int userId, PageRequest pageRequest);
 
@@ -84,7 +87,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	Page<Application> getFilterDreamApplications(int jobId, String filterStatus, String companyName,
 			PageRequest pageRequest);
 
-	
+
 
 	@Query("SELECT app.jobId FROM Application app WHERE app.candidateId = ?1")
 	List<Integer> getJobIdsByUserId(int userId);
@@ -97,13 +100,13 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 
 	@Query("SELECT a FROM Application a WHERE a.companyName=?1 And a.jobId = ?2")
 	Page<Application> getApplicationsByCompany(String companyName, int jobId, PageRequest pageRequest);
-	
-	
+
+
 	@Query("SELECT a FROM Application a WHERE a.companyName=?1 And a.jobId = ?2 AND a.candidateId = ?3")
 	List<Application> getDreamApplicationsByCompanyBySkills(String companyName, int jobId, Integer candidateId);
-	
-	
-	
+
+
+
 	@Query("select app from Application app where app.companyName=?1 AND app.jobId=?2  AND app.appliedOn BETWEEN ?3 AND ?4")
 	Page<Application> getDreamApplicationsWithDateByCompany(String companyName, int jobId, Date fromDate, Date toDate,
 			PageRequest pageRequest);
@@ -112,7 +115,7 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	@Query("select app from Application app where (app.jobId=?1 AND app.applicationStatus=?2 AND app.companyName=?3) AND app.appliedOn BETWEEN ?4 AND ?5")
 	Page<Application> getFilterDreamApplicationsWithDateByCompany(int jobId, String filterStatus, String companyName, 
 			Date fromDate, Date toDate, PageRequest pageRequest);
-	
+
 	@Query("SELECT DISTINCT a.companyName FROM Application a WHERE a.candidateId =?1")
 	String[] appliedCompanyByUser(int userId);
 
@@ -131,14 +134,19 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	@Query("SELECT COUNT(a) > 0 FROM Application a WHERE a.candidateId = ?1 AND a.companyName = ?2 AND (?3 IS NULL OR a.jobRole = ?3)")
 	boolean findIsAppliedDreamJob(int userId, String companyName, @Param("jobRole") String jobRole);
 
-	
+
 	@Query("SELECT app FROM Application app WHERE app.candidateId = ?1 AND app.jobId = 0 AND (app.applicationStatus LIKE %?2% OR app.companyName LIKE %?2% OR app.jobRole LIKE %?2%)")
 	Page<Application> findDreamJobsApplicationsBySearchStatus(int userId, String searchStatus, PageRequest pageRequest);
 
 	@Query("SELECT app FROM Application app WHERE app.jobId = ?1 AND app.candidateId = ?2 AND (app.applicationStatus LIKE %?3% OR app.companyName LIKE %?3% OR app.jobRole LIKE %?3%)")
 	Application getApplicationByJobIdAndCandidateIdAndSearchStatus(int jobId, int userId, String searchStatus);
 
+	@Modifying
+	@Transactional
+	@Query("UPDATE Application a SET a.companyName = ?1 WHERE a.companyName = ?2")
+	void mergeCompany(String mergeWithCompanyName, String companyName);
 
-	
+
+
 
 }
