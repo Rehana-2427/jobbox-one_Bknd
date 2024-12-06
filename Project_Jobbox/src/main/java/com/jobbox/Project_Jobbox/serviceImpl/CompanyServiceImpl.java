@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jobbox.Project_Jobbox.entity.Application;
 import com.jobbox.Project_Jobbox.entity.Company;
 import com.jobbox.Project_Jobbox.entity.HiringPolicy;
 import com.jobbox.Project_Jobbox.entity.User;
@@ -171,11 +172,33 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public Page<Company> findCompanyBySearch(String search, int page, int size) {
+	public Page<Company> findCompanyBySearch(String search, int page, int size,String sortBy, String sortOrder) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		logger.info("class:: CompanyServiceImpl -> method  findCompanyBySearch ::{ search : " + search + " }");
 		PageRequest pageRequest = PageRequest.of(page, size);
 		return repository.findCompanyBySearch(search, pageRequest);
+=======
+		logger.info("class:: CompanyServiceImpl -> method  findCompanyBySearch ::{ search : "+search+" }");
+		try {
+			PageRequest pageRequest;
+			if (sortBy == null || sortBy.isEmpty()) {
+				pageRequest = PageRequest.of(page, size); // No sorting
+			} else {
+				Sort.Direction direction = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.Direction.ASC
+						: Sort.Direction.DESC;
+				Sort sort = Sort.by(direction, sortBy);
+				pageRequest = PageRequest.of(page, size, sort);
+			}
+
+			return repository.findCompanyBySearch(search, pageRequest);
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Handle the exception or return a default page
+			return Page.empty();
+		}
+		
+>>>>>>> b99803d84568fb30bdd3765e0003358f7e3dc60d
 	}
 
 	@Override
@@ -450,9 +473,34 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public Company updateHiringPolicy(HiringPolicy hiringPolicy, String companyName) {
 		// TODO Auto-generated method stub
 		Company company = repository.findCompanyByName(companyName);
+=======
+	public List<Company> searchCompanies(String companyName) {
+		// TODO Auto-generated method stub
+		 return repository.findByNameContainingIgnoreCase(companyName);
+	}
+
+	@Override
+	public Company mergeCompany(String mergeWithCompanyName, int companyId) {
+		// TODO Auto-generated method stub
+
+		String companyName = repository.getCompanyName(companyId);
+		applicationRepository.mergeCompany(mergeWithCompanyName, companyName);
+		Date date = new Date();
+		updateCompanyStatus(companyName,date,"Rejected");
+		
+			return repository.findCompanyByName(companyName);
+		
+//		List<Application> applications=applicationRepository.getApplicationByCompanyId(companyId);
+//		for(Application application :applications) {
+//			application.setcom
+//		}
+	}
+
+>>>>>>> b99803d84568fb30bdd3765e0003358f7e3dc60d
 
 		// Update the hiring policy
 		company.setHiringPolicy(hiringPolicy);

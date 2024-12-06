@@ -150,6 +150,10 @@ public class ChatServiceImpl implements ChatService {
 		// Find the existing chat message by ID
 		Chat existingChat = chatRepository.getById(chatId);
 
+			
+		System.out.println("existingChat" + existingChat.getCreatedAt() );
+
+
 		// Update the necessary fields
 		if (updatedChat.getHrMessage() != null) {
 			existingChat.setHrMessage(updatedChat.getHrMessage());
@@ -157,6 +161,8 @@ public class ChatServiceImpl implements ChatService {
 		if (updatedChat.getCandidateMessage() != null) {
 			existingChat.setCandidateMessage(updatedChat.getCandidateMessage());
 		}
+
+	
 		// Do not update the createdAt timestamp
 		 existingChat.setCreatedAt(existingChat.getCreatedAt()); // This line is
 
@@ -169,10 +175,13 @@ public class ChatServiceImpl implements ChatService {
 	public void deleteChatMessage(Long chatId) {
 		// TODO Auto-generated method stub
 		if (chatRepository.existsById(chatId)) {
-			chatRepository.deleteById(chatId);
-			;
+			chatRepository.deleteById(chatId);			
 		}
 
 	}
+
+
+
+	
 
 }

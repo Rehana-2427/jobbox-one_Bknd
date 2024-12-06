@@ -126,7 +126,7 @@ public class ChatController {
 		return ResponseEntity.ok("Message updated successfully");
 	}
 
-	// Delete a Chat Message
+	//  Delete a Chat Message
 	@DeleteMapping("/deleteChatMsg")
 	public ResponseEntity<String> deleteChatMessage(@RequestParam Long chatId) {
 		chatService.deleteChatMessage(chatId);

@@ -20,7 +20,7 @@ public class CorsConfig {
 				  // Allow CORS for WebSocket endpoint (e.g., /ws or whatever path you're using)
 		        registry.addMapping("/api/jobbox/ws/**")
 		                .allowedOrigins("http://localhost:3000", "http://51.79.18.21:3000")
-		                .allowedMethods("GET", "POST", "PUT", "DELETE")
+		                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 		                .allowCredentials(true);
 
 			}
