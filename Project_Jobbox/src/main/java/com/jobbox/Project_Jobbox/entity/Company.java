@@ -4,6 +4,7 @@ import java.util.Base64;
 import java.util.Date;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,8 +21,6 @@ public class Company {
 	private int companyId;
 	private String companyName;
 	private String companyType;
-
-
 
 	private String location;
 	@Temporal(TemporalType.DATE)
@@ -53,8 +52,8 @@ public class Company {
 	private String facebookLink;
 	private String twitterLink;
 
-
-
+	@Embedded
+	private HiringPolicy hiringPolicy;
 
 	public String getCompanyType() {
 		return companyType;
@@ -63,6 +62,7 @@ public class Company {
 	public void setCompanyType(String companyType) {
 		this.companyType = companyType;
 	}
+
 	public String getLinkedinLink() {
 		return linkedinLink;
 	}
@@ -70,8 +70,6 @@ public class Company {
 	public void setLinkedinLink(String linkedinLink) {
 		this.linkedinLink = linkedinLink;
 	}
-
-
 
 	public String getInstagramLink() {
 		return instagramLink;
@@ -155,8 +153,6 @@ public class Company {
 		this.websiteLink = websiteLink;
 	}
 
-
-
 	public String getHeadquaters() {
 		return headquaters;
 	}
@@ -164,7 +160,6 @@ public class Company {
 	public void setHeadquaters(String headquaters) {
 		this.headquaters = headquaters;
 	}
-
 
 	public String getSpecialties() {
 		return specialties;
@@ -222,8 +217,6 @@ public class Company {
 		this.companyName = companyName;
 	}
 
-
-
 	public String getLocation() {
 		return location;
 	}
@@ -232,11 +225,9 @@ public class Company {
 		this.location = location;
 	}
 
-
 	public String getCompanySize() {
 		return companySize;
 	}
-
 
 	public void setCompanySize(String companySize) {
 		this.companySize = companySize;
@@ -250,16 +241,12 @@ public class Company {
 		this.year = year;
 	}
 
-	@Override
-	public String toString() {
-		return "Company [companyId=" + companyId + ", companyName=" + companyName
-				+ ", location=" + location +", date=" + date + ", actionDate="
-				+ actionDate + ", companyStatus=" + companyStatus + ", jobboxEmail=" + jobboxEmail + ", overView="
-				+ overView + ", websiteLink=" + websiteLink + ", companySize=" + companySize + ", industryService="
-				+ industryService + ", headquaters=" + headquaters + ", year=" + year + ", specialties=" + specialties
-				+ ", linkedinLink=" + linkedinLink + ", instagramLink=" + instagramLink + ", facebookLink="
-				+ facebookLink + ", twitterLink=" + twitterLink +", companyType="+ companyType+ "]";
+	public HiringPolicy getHiringPolicy() {
+		return hiringPolicy;
 	}
 
+	public void setHiringPolicy(HiringPolicy hiringPolicy) {
+		this.hiringPolicy = hiringPolicy;
+	}
 
 }

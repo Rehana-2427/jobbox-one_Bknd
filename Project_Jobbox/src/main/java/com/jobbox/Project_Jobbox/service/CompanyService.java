@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jobbox.Project_Jobbox.entity.Company;
+import com.jobbox.Project_Jobbox.entity.HiringPolicy;
 
 public interface CompanyService {
 
@@ -69,6 +70,10 @@ public interface CompanyService {
 	List<String> getAllLocations();
 
 	Page<Company> getCompaniesByFilters(String companyType, String industryType, String location, int page, int size);
+
+	Company updateHiringPolicy(HiringPolicy hiringPolicy, String companyName);
+
+	HiringPolicy getHiringPolicy(String companyName);
 
 	
 

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jobbox.Project_Jobbox.entity.Company;
+import com.jobbox.Project_Jobbox.entity.HiringPolicy;
 import com.jobbox.Project_Jobbox.entity.User;
 import com.jobbox.Project_Jobbox.repository.ApplicationRepository;
 import com.jobbox.Project_Jobbox.repository.CompanyRepository;
@@ -33,22 +34,22 @@ import com.jobbox.Project_Jobbox.service.CompanyService;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
-	
-	Logger logger=LoggerFactory.getLogger(CompanyServiceImpl.class);
-	
+
+	Logger logger = LoggerFactory.getLogger(CompanyServiceImpl.class);
+
 	@Autowired
 	public CompanyRepository repository;
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	ApplicationRepository applicationRepository;
-	
+
 	@Override
 	public String saveCompany(Company c) {
-		
-		logger.info("class:: CompanyServiceImpl -> method saveCompany ::{ Company : "+c+" }");
+
+		logger.info("class:: CompanyServiceImpl -> method saveCompany ::{ Company : " + c + " }");
 		Company com = repository.findByName(c.getCompanyName());
 		if (com != null) {
 			if (com.getWebsiteLink() == null) {
@@ -72,7 +73,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Company findCompanyById(int id) {
 
-		logger.info("class:: CompanyServiceImpl -> method findCompanyById ::{ id }" +id);
+		logger.info("class:: CompanyServiceImpl -> method findCompanyById ::{ id }" + id);
 
 		Optional<Company> optional = repository.findById(id);
 		if (optional.isPresent()) {
@@ -91,7 +92,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public Page<Company> getCompanies(int page, int size, String sortBy, String sortOrder) {
-		
+
 		logger.info("class:: CompanyServiceImpl -> method getCompanies ::{ Companies }");
 		try {
 			PageRequest pageRequest;
@@ -113,8 +114,8 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public Page<Company> companiesList(int page, int size,String sortBy, String sortOrder) {
-		
+	public Page<Company> companiesList(int page, int size, String sortBy, String sortOrder) {
+
 		logger.info("class:: CompanyServiceImpl -> method companiesList ::{ Companies }");
 		try {
 			PageRequest pageRequest;
@@ -143,7 +144,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public void updateCompanyStatus(String companyName, Date actionDate, String companyStatus) {
-		logger.info("class:: CompanyServiceImpl -> method updateCompanyStatus ::{ companyName : "+companyName+" ActionDate : "+actionDate+" companyStatus : "+companyStatus+" }");
+		logger.info("class:: CompanyServiceImpl -> method updateCompanyStatus ::{ companyName : " + companyName
+				+ " ActionDate : " + actionDate + " companyStatus : " + companyStatus + " }");
 		Company com = repository.findCompanyByName(companyName);
 		com.setActionDate(actionDate);
 		com.setCompanyStatus(companyStatus);
@@ -154,7 +156,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public void updateCompanyDetails(String companyName, String location1, String description) {
-		logger.info("class:: CompanyServiceImpl -> method updateCompanyDetails ::{ companyName : "+companyName+" location : "+location1+" companyStatus : "+description+" }");
+		logger.info("class:: CompanyServiceImpl -> method updateCompanyDetails ::{ companyName : " + companyName
+				+ " location : " + location1 + " companyStatus : " + description + " }");
 		Company company = repository.findCompanyByName(companyName);
 		company.setLocation(location1);
 		repository.save(company);
@@ -162,7 +165,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public Integer countTotalCompanies() {
-		
+
 		logger.info("class:: CompanyServiceImpl -> method countTotalCompanies ::{ companyName }");
 		return repository.countApprovedCompanies();
 	}
@@ -170,7 +173,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Page<Company> findCompanyBySearch(String search, int page, int size) {
 		// TODO Auto-generated method stub
-		logger.info("class:: CompanyServiceImpl -> method  findCompanyBySearch ::{ search : "+search+" }");
+		logger.info("class:: CompanyServiceImpl -> method  findCompanyBySearch ::{ search : " + search + " }");
 		PageRequest pageRequest = PageRequest.of(page, size);
 		return repository.findCompanyBySearch(search, pageRequest);
 	}
@@ -192,8 +195,8 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Company updateCompanyDetailsByHR(Company companyDetails, String companyName) {
 		// TODO Auto-generated method stub
-		logger.info("class:: CompanyServiceImpl -> method updateCompanyDetailsByHR ::{ companyName : "+companyName+" CompanyDetails"
-				+companyDetails+" }");
+		logger.info("class:: CompanyServiceImpl -> method updateCompanyDetailsByHR ::{ companyName : " + companyName
+				+ " CompanyDetails" + companyDetails + " }");
 		Company company = repository.findCompanyByName(companyName);
 		company.setOverView(companyDetails.getOverView());
 		company.setWebsiteLink(companyDetails.getWebsiteLink());
@@ -204,11 +207,11 @@ public class CompanyServiceImpl implements CompanyService {
 		company.setSpecialties(companyDetails.getSpecialties());
 		company.setCompanyType(companyDetails.getCompanyType());
 
-		List<User> hrs=userRepository.getHrBycomapnyName(companyName);
-		System.out.println("list size : "+hrs.size()+hrs.toString());
-		for(User hr : hrs) {
+		List<User> hrs = userRepository.getHrBycomapnyName(companyName);
+		System.out.println("list size : " + hrs.size() + hrs.toString());
+		for (User hr : hrs) {
 			hr.setCompanyWebsite(companyDetails.getWebsiteLink());
-			System.out.println(companyDetails.getWebsiteLink()+"   "+hr);
+			System.out.println(companyDetails.getWebsiteLink() + "   " + hr);
 			userRepository.save(hr);
 		}
 		return repository.save(company);
@@ -216,8 +219,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public Company updateCompanyDetailsByAdmin(Company companyDetails, String companyName) {
-		logger.info("class:: CompanyServiceImpl -> method updateCompanyDetailsByAdmin ::{ companyName : "+companyName+" CompanyDetails"
-				+companyDetails+" }");
+		logger.info("class:: CompanyServiceImpl -> method updateCompanyDetailsByAdmin ::{ companyName : " + companyName
+				+ " CompanyDetails" + companyDetails + " }");
 		Company company = repository.findCompanyByName(companyName);
 		company.setOverView(companyDetails.getOverView());
 		company.setWebsiteLink(companyDetails.getWebsiteLink());
@@ -228,11 +231,11 @@ public class CompanyServiceImpl implements CompanyService {
 		company.setSpecialties(companyDetails.getSpecialties());
 		company.setLocation(companyDetails.getLocation());
 
-		List<User> hrs=userRepository.getHrBycomapnyName(companyName);
-		System.out.println("list size : "+hrs.size()+hrs.toString());
-		for(User hr : hrs) {
+		List<User> hrs = userRepository.getHrBycomapnyName(companyName);
+		System.out.println("list size : " + hrs.size() + hrs.toString());
+		for (User hr : hrs) {
 			hr.setCompanyWebsite(companyDetails.getWebsiteLink());
-			System.out.println(companyDetails.getWebsiteLink()+"   "+hr);
+			System.out.println(companyDetails.getWebsiteLink() + "   " + hr);
 			userRepository.save(hr);
 		}
 		return repository.save(company);
@@ -240,8 +243,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public Company updateSocialMediaLinks(Company companyDetails, String companyName) {
-		logger.info("class:: CompanyServiceImpl -> method updateSocialMediaLinks ::{ companyName : "+companyName+" CompanyDetails"
-				+companyDetails+" }");
+		logger.info("class:: CompanyServiceImpl -> method updateSocialMediaLinks ::{ companyName : " + companyName
+				+ " CompanyDetails" + companyDetails + " }");
 		Company company = repository.findCompanyByName(companyName);
 		company.setLinkedinLink(companyDetails.getLinkedinLink());
 		company.setInstagramLink(companyDetails.getInstagramLink());
@@ -277,7 +280,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	public ResponseEntity<String> uploadCompanyLogo(String companyName, MultipartFile file) {
-		logger.info("class:: CompanyServiceImpl -> method uploadCompanyLogo ::{ companyName : "+companyName+"}");
+		logger.info("class:: CompanyServiceImpl -> method uploadCompanyLogo ::{ companyName : " + companyName + "}");
 		try {
 			// Find company by name
 			Company company = repository.findByName(companyName);
@@ -307,8 +310,8 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	public ResponseEntity<byte[]> getCompanyLogo(String companyName) {
-		
-		logger.info("class:: CompanyServiceImpl -> method  getCompanyLogo ::{ companyName : "+companyName+"}");
+
+		logger.info("class:: CompanyServiceImpl -> method  getCompanyLogo ::{ companyName : " + companyName + "}");
 		Company company = repository.findByName(companyName);
 		if (company != null && company.getLogo() != null) {
 			HttpHeaders headers = new HttpHeaders();
@@ -322,7 +325,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public ResponseEntity<String> uploadCompanyBanner(String companyName, MultipartFile file) {
 		// TODO Auto-generated method stub
-		logger.info("class:: CompanyServiceImpl -> method  uploadCompanyBanner ::{ companyName : "+companyName+"}");
+		logger.info("class:: CompanyServiceImpl -> method  uploadCompanyBanner ::{ companyName : " + companyName + "}");
 		try {
 			// Find company by name
 			Company company = repository.findByName(companyName);
@@ -353,9 +356,9 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public ResponseEntity<byte[]> getCompanyBanner(String companyName) {
-		
+
 		// TODO Auto-generated method stub
-		logger.info("class:: CompanyServiceImpl -> method  getCompanyBanner ::{ companyName : "+companyName+"}");
+		logger.info("class:: CompanyServiceImpl -> method  getCompanyBanner ::{ companyName : " + companyName + "}");
 		Company company = repository.findByName(companyName);
 		if (company != null && company.getBanner() != null) {
 			HttpHeaders headers = new HttpHeaders();
@@ -381,8 +384,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public Company getSocialMediaLinks(String companyName) {
-		
-		logger.info("class:: CompanyServiceImpl -> method  getSocialMediaLinks ::{ companyName : "+companyName+"}");
+
+		logger.info("class:: CompanyServiceImpl -> method  getSocialMediaLinks ::{ companyName : " + companyName + "}");
 		return repository.findByName(companyName);
 
 	}
@@ -390,33 +393,33 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Integer countOfAppliedCompanies(int userId) {
 		// TODO Auto-generated method stub
-		logger.info("class:: CompanyServiceImpl -> method  countOfAppliedCompanies ::{ userId : "+userId+"}");
+		logger.info("class:: CompanyServiceImpl -> method  countOfAppliedCompanies ::{ userId : " + userId + "}");
 		return applicationRepository.countDistinctCompaniesByUserId(userId);
 	}
 
 	@Override
 	public Page<Company> findAppliedCompanyByUser(int userId, int page, int size) {
 		// TODO Auto-generated method stub
-		logger.info("class:: CompanyServiceImpl -> method  findAppliedCompanyByUser ::{ userId : "+userId+"}");
-		String[] appliedCompanies=applicationRepository.appliedCompanyByUser(userId);
+		logger.info("class:: CompanyServiceImpl -> method  findAppliedCompanyByUser ::{ userId : " + userId + "}");
+		String[] appliedCompanies = applicationRepository.appliedCompanyByUser(userId);
 		System.out.println(Arrays.toString(appliedCompanies));
-		List<Company> companies=new ArrayList<>();
-		for(String appliedCompany : appliedCompanies) {
+		List<Company> companies = new ArrayList<>();
+		for (String appliedCompany : appliedCompanies) {
 			Company company = repository.findByName(appliedCompany);
 			companies.add(company);
 		}
-		  // Create a Pageable object for pagination
-	    Pageable pageable = PageRequest.of(page, size);
-	    
-	    // Determine the start and end indices for the sublist
-	    int start = (int) pageable.getOffset();
-	    int end = Math.min((start + pageable.getPageSize()), companies.size());
-	    
-	    // Create a sublist based on the current page and size
-	    List<Company> pagedCompanies = companies.subList(start, end);
-	    
-	    // Create a PageImpl object to wrap the sublist
-	    return new PageImpl<>(pagedCompanies, pageable, companies.size());
+		// Create a Pageable object for pagination
+		Pageable pageable = PageRequest.of(page, size);
+
+		// Determine the start and end indices for the sublist
+		int start = (int) pageable.getOffset();
+		int end = Math.min((start + pageable.getPageSize()), companies.size());
+
+		// Create a sublist based on the current page and size
+		List<Company> pagedCompanies = companies.subList(start, end);
+
+		// Create a PageImpl object to wrap the sublist
+		return new PageImpl<>(pagedCompanies, pageable, companies.size());
 	}
 
 	@Override
@@ -442,10 +445,38 @@ public class CompanyServiceImpl implements CompanyService {
 			int size) {
 		// TODO Auto-generated method stub
 		System.out.println(companyType + industryType + location);
-		 Pageable pageable = PageRequest.of(page, size);
+		Pageable pageable = PageRequest.of(page, size);
 		return repository.findByFilters(companyType, industryType, location, pageable);
 	}
 
+	@Override
+	public Company updateHiringPolicy(HiringPolicy hiringPolicy, String companyName) {
+		// TODO Auto-generated method stub
+		Company company = repository.findCompanyByName(companyName);
 
+		// Update the hiring policy
+		company.setHiringPolicy(hiringPolicy);
 
+		// If reapply is not allowed, set default value for reapplyMonths (12)
+		if (!hiringPolicy.isAllowReapply()) {
+			hiringPolicy.setReapplyMonths(12); // Default value
+		}
+
+		// Save the updated company entity with the new hiring policy
+		return repository.save(company);
+	}
+
+	@Override
+	public HiringPolicy getHiringPolicy(String companyName) {
+		// Fetch the company using the company name
+		Company company = repository.findCompanyByName(companyName);
+
+		if (company != null && company.getHiringPolicy() != null) {
+			// If company and its hiring policy are found, return the hiring policy
+			return company.getHiringPolicy();
+		}
+
+		// Return null if no company or policy found
+		return null;
+	}
 }

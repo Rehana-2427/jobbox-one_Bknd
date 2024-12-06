@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jobbox.Project_Jobbox.entity.Company;
+import com.jobbox.Project_Jobbox.entity.HiringPolicy;
 import com.jobbox.Project_Jobbox.service.CompanyService;
 
-@CrossOrigin(origins = {"http://51.79.18.21:3000", "http://localhost:3000"})@Controller
+@CrossOrigin(origins = { "http://51.79.18.21:3000", "http://localhost:3000" })
+@Controller
 @RequestMapping("/api/jobbox")
 @RestController
 public class CompanyController {
@@ -63,13 +65,13 @@ public class CompanyController {
 
 	@GetMapping("/companiesList")
 	public ResponseEntity<Page<Company>> companiesList(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "5") int size,  @RequestParam(required = false) String sortBy,
+			@RequestParam(defaultValue = "5") int size, @RequestParam(required = false) String sortBy,
 			@RequestParam(required = false) String sortOrder) {
 		try {
 			Page<Company> companies = service.companiesList(page, size, sortBy, sortOrder);
-			//			companies.getContent().forEach(company -> {
-			//				System.out.println("Company: " + company);
-			//			});
+			// companies.getContent().forEach(company -> {
+			// System.out.println("Company: " + company);
+			// });
 			return new ResponseEntity<Page<Company>>(companies, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -152,8 +154,7 @@ public class CompanyController {
 
 	@GetMapping("/searchCompany")
 	public ResponseEntity<Page<Company>> displayCompanyBySearch(@RequestParam String search,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size  
-         ) {
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
 
 		return new ResponseEntity<Page<Company>>(service.findCompanyBySearch(search, page, size), HttpStatus.OK);
 	}
@@ -194,7 +195,7 @@ public class CompanyController {
 	@GetMapping("/banner")
 	public ResponseEntity<byte[]> getCompanyBanner(@RequestParam String companyName) {
 		return service.getCompanyBanner(companyName);
-	}    
+	}
 
 	@GetMapping("/companylogos")
 	public ResponseEntity<Map<Integer, String>> getCompanyLogos() {
@@ -216,38 +217,52 @@ public class CompanyController {
 		return new ResponseEntity<Integer>(service.countOfAppliedCompanies(userId), HttpStatus.OK);
 	}
 
-
-
 	@GetMapping("/appliedCompanies")
-	public ResponseEntity<Page<Company>> appliedCompanies(@RequestParam int userId,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-		return new ResponseEntity<Page<Company>>(service.findAppliedCompanyByUser(userId,page,size), HttpStatus.OK);
+	public ResponseEntity<Page<Company>> appliedCompanies(@RequestParam int userId,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+		return new ResponseEntity<Page<Company>>(service.findAppliedCompanyByUser(userId, page, size), HttpStatus.OK);
 	}
 
-	
 	@GetMapping("/companyTypes")
 	public ResponseEntity<List<String>> getCompanyTypes() {
-		return  new ResponseEntity<List<String>>(service.getAllCompanyTypes(), HttpStatus.OK) ;
+		return new ResponseEntity<List<String>>(service.getAllCompanyTypes(), HttpStatus.OK);
 	}
 
-	
 	@GetMapping("/industryTypes")
 	public ResponseEntity<List<String>> getIndustryTypes() {
-		return  new ResponseEntity<List<String>>(service.getAllIndustryTypes(), HttpStatus.OK) ;		
+		return new ResponseEntity<List<String>>(service.getAllIndustryTypes(), HttpStatus.OK);
+	}
+
+	@GetMapping("/locations")
+	public ResponseEntity<List<String>> getLocations() {
+		return new ResponseEntity<List<String>>(service.getAllLocations(), HttpStatus.OK);
+	}
+
+	@GetMapping("/companiesByType")
+	public Page<Company> companiesByType(@RequestParam(required = false) String companyType,
+			@RequestParam(required = false) String industryType, @RequestParam(required = false) String location,
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+		return service.getCompaniesByFilters(companyType, industryType, location, page, size);
+	}
+
+	@PutMapping("/updateHiringPolicy")
+	public ResponseEntity<String> updateHiringPolicy(@RequestParam String companyName,
+	                                                 @RequestBody HiringPolicy hiringPolicyDetails) {
+	    service.updateHiringPolicy(hiringPolicyDetails, companyName);
+	    return new ResponseEntity<>("Hiring policy update successful", HttpStatus.OK);
 	}
 
 	
-	@GetMapping("/locations")
-	public ResponseEntity<List<String>> getLocations() {
-		return  new ResponseEntity<List<String>>(service.getAllLocations(), HttpStatus.OK) ;		
-	}
-	
-	  @GetMapping("/companiesByType")
-	    public Page<Company> companiesByType(
-	            @RequestParam(required = false) String companyType,
-	            @RequestParam(required = false) String industryType,
-	            @RequestParam(required = false) String location,
-	            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size
-	            ) {
-	        return service.getCompaniesByFilters(companyType, industryType, location, page,size);
-	    }
+	@GetMapping("/getHiringPolicy")
+    public ResponseEntity<HiringPolicy> getHiringPolicy(@RequestParam String companyName) {
+        // Call the service to fetch the hiring policy
+        HiringPolicy hiringPolicy = service.getHiringPolicy(companyName);
+
+        if (hiringPolicy != null) {
+            return new ResponseEntity<>(hiringPolicy, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // Return 404 if the hiring policy or company is not found
+    }
+
 }
