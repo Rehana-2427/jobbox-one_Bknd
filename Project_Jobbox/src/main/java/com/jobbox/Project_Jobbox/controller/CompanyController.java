@@ -162,12 +162,8 @@ public class CompanyController {
 		return new ResponseEntity<Company>(service.findCompanyById(companyId), HttpStatus.OK);
 	}
 
-<<<<<<< HEAD
-	@GetMapping("/searchCompany")
-	public ResponseEntity<Page<Company>> displayCompanyBySearch(@RequestParam String search,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-=======
->>>>>>> b99803d84568fb30bdd3765e0003358f7e3dc60d
+
+
 
 
 	@GetMapping("/findCompany")
@@ -234,35 +230,29 @@ public class CompanyController {
 		return new ResponseEntity<Page<Company>>(service.findAppliedCompanyByUser(userId, page, size), HttpStatus.OK);
 	}
 
-<<<<<<< HEAD
-=======
 
->>>>>>> b99803d84568fb30bdd3765e0003358f7e3dc60d
 	@GetMapping("/companyTypes")
 	public ResponseEntity<List<String>> getCompanyTypes() {
 		return new ResponseEntity<List<String>>(service.getAllCompanyTypes(), HttpStatus.OK);
 	}
 
-<<<<<<< HEAD
-=======
 
->>>>>>> b99803d84568fb30bdd3765e0003358f7e3dc60d
 	@GetMapping("/industryTypes")
 	public ResponseEntity<List<String>> getIndustryTypes() {
 		return new ResponseEntity<List<String>>(service.getAllIndustryTypes(), HttpStatus.OK);
 	}
 
-	@GetMapping("/locations")
-	public ResponseEntity<List<String>> getLocations() {
-		return new ResponseEntity<List<String>>(service.getAllLocations(), HttpStatus.OK);
-	}
+//	@GetMapping("/locations")
+//	public ResponseEntity<List<String>> getLocations() {
+//		return new ResponseEntity<List<String>>(service.getAllLocations(), HttpStatus.OK);
+//	}
 
-	@GetMapping("/companiesByType")
-	public Page<Company> companiesByType(@RequestParam(required = false) String companyType,
-			@RequestParam(required = false) String industryType, @RequestParam(required = false) String location,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-		return service.getCompaniesByFilters(companyType, industryType, location, page, size);
-	}
+//	@GetMapping("/companiesByType")
+//	public Page<Company> companiesByType(@RequestParam(required = false) String companyType,
+//			@RequestParam(required = false) String industryType, @RequestParam(required = false) String location,
+//			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+//		return service.getCompaniesByFilters(companyType, industryType, location, page, size);
+//	}
 
 	@PutMapping("/updateHiringPolicy")
 	public ResponseEntity<String> updateHiringPolicy(@RequestParam String companyName,
@@ -271,7 +261,6 @@ public class CompanyController {
 	    return new ResponseEntity<>("Hiring policy update successful", HttpStatus.OK);
 	}
 
-<<<<<<< HEAD
 	
 	@GetMapping("/getHiringPolicy")
     public ResponseEntity<HiringPolicy> getHiringPolicy(@RequestParam String companyName) {
@@ -284,7 +273,6 @@ public class CompanyController {
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // Return 404 if the hiring policy or company is not found
     }
-=======
 
 	@GetMapping("/locations")
 	public ResponseEntity<List<String>> getLocations() {
@@ -313,7 +301,6 @@ public class CompanyController {
 
 	}
 
->>>>>>> b99803d84568fb30bdd3765e0003358f7e3dc60d
 
 }
 
