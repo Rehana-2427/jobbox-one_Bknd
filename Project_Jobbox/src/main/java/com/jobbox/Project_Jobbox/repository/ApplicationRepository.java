@@ -146,6 +146,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	@Query("UPDATE Application a SET a.companyName = ?1 WHERE a.companyName = ?2")
 	void mergeCompany(String mergeWithCompanyName, String companyName);
 
+	@Query("SELECT a FROM Application a WHERE a.resumeId = ?1")
+	List<Application> getResumeDetails(long resumeId);
+
 
 
 

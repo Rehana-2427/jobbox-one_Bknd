@@ -70,4 +70,6 @@ public interface ApplicationService {
 			String sortedColumn);
 
 	List<String> checkAppliedCompanies(int userId, String[] companies, String jobRole);
+
+	List<Application> getResumeDetails(long resumeId);
 }

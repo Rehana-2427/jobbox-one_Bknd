@@ -174,11 +174,7 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Page<Company> findCompanyBySearch(String search, int page, int size,String sortBy, String sortOrder) {
 		// TODO Auto-generated method stub
-<<<<<<< HEAD
-		logger.info("class:: CompanyServiceImpl -> method  findCompanyBySearch ::{ search : " + search + " }");
-		PageRequest pageRequest = PageRequest.of(page, size);
-		return repository.findCompanyBySearch(search, pageRequest);
-=======
+
 		logger.info("class:: CompanyServiceImpl -> method  findCompanyBySearch ::{ search : "+search+" }");
 		try {
 			PageRequest pageRequest;
@@ -198,7 +194,6 @@ public class CompanyServiceImpl implements CompanyService {
 			return Page.empty();
 		}
 		
->>>>>>> b99803d84568fb30bdd3765e0003358f7e3dc60d
 	}
 
 	@Override
@@ -472,16 +467,12 @@ public class CompanyServiceImpl implements CompanyService {
 		return repository.findByFilters(companyType, industryType, location, pageable);
 	}
 
-	@Override
-<<<<<<< HEAD
-	public Company updateHiringPolicy(HiringPolicy hiringPolicy, String companyName) {
-		// TODO Auto-generated method stub
-		Company company = repository.findCompanyByName(companyName);
-=======
-	public List<Company> searchCompanies(String companyName) {
-		// TODO Auto-generated method stub
-		 return repository.findByNameContainingIgnoreCase(companyName);
-	}
+	
+//=======
+//	public List<Company> searchCompanies(String companyName) {
+//		// TODO Auto-generated method stub
+//		 return repository.findByNameContainingIgnoreCase(companyName);
+//	}
 
 	@Override
 	public Company mergeCompany(String mergeWithCompanyName, int companyId) {
@@ -500,7 +491,10 @@ public class CompanyServiceImpl implements CompanyService {
 //		}
 	}
 
->>>>>>> b99803d84568fb30bdd3765e0003358f7e3dc60d
+	@Override
+	public Company updateHiringPolicy(HiringPolicy hiringPolicy, String companyName) {
+		// TODO Auto-generated method stub
+		Company company = repository.findCompanyByName(companyName);
 
 		// Update the hiring policy
 		company.setHiringPolicy(hiringPolicy);
@@ -526,5 +520,11 @@ public class CompanyServiceImpl implements CompanyService {
 
 		// Return null if no company or policy found
 		return null;
+	}
+
+	@Override
+	public List<Company> searchCompanies(String companyName) {
+		// TODO Auto-generated method stub
+		return repository.findByNameContainingIgnoreCase(companyName);
 	}
 }

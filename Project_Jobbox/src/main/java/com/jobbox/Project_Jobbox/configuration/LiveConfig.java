@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 public class LiveConfig {
 	 public void addCorsMappings(CorsRegistry registry) {
 	        registry.addMapping("/**")
-	                .allowedOrigins("http://51.79.18.21:3000","http://51.79.18.21:8082") // Your production domain
+	                .allowedOrigins("http://51.79.18.21:3000","http://51.79.18.21:8082","http://jobbox.one") // Your production domain
 	                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
 	                .allowedHeaders("*");
 	    }

@@ -741,4 +741,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 		return null;
 	}
 
+	@Override
+	public List<Application> getResumeDetails(long resumeId) {
+		// TODO Auto-generated method stub
+		System.out.println("getting resume details");
+		return applicationRepository.getResumeDetails(resumeId);
+	}
+
 }

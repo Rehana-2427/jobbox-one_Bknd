@@ -71,15 +71,15 @@ public interface CompanyService {
 
 	Page<Company> getCompaniesByFilters(String companyType, String industryType, String location, int page, int size);
 
-<<<<<<< HEAD
+
 	Company updateHiringPolicy(HiringPolicy hiringPolicy, String companyName);
 
 	HiringPolicy getHiringPolicy(String companyName);
-=======
+
 	List<Company> searchCompanies(String companyName);
 
 	Company mergeCompany(String cmergeWithCompanyName, int companyId);
->>>>>>> b99803d84568fb30bdd3765e0003358f7e3dc60d
+
 
 	
 
