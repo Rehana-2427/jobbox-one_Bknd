@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -105,11 +106,16 @@ public class CompanyController {
 		return new ResponseEntity<String>("update successFull", HttpStatus.OK);
 	}
 
-	@GetMapping("/getCompanyByName")
-	public ResponseEntity<Company> getCompanyByName(@RequestParam String companyName) {
-		Company company = service.findCompanyByName(companyName);
-		return new ResponseEntity<>(company, HttpStatus.OK);
+	@GetMapping("/getCompanyByName/{companyName}")
+	public ResponseEntity<Company> getCompanyByName(@PathVariable String companyName) {
+	    Company company = service.findCompanyByName(companyName);
+	    if (company != null) {
+	        return new ResponseEntity<>(company, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
 	}
+
 
 	@PutMapping("/updateCompanyByName")
 	public ResponseEntity<String> updateCompanyDetails(@RequestParam String companyName,
@@ -300,6 +306,18 @@ public class CompanyController {
 		return new ResponseEntity<Company>(service.mergeCompany(mergeWithCompanyName,companyId),HttpStatus.OK);
 
 	}
+	
+	@GetMapping("/checkCompanyByName")
+	public ResponseEntity<String> checkCompanyByName(@RequestParam String companyName) {
+	    boolean companyExists = service.isCompanyExists(companyName);
+	    if (companyExists) {
+	        return new ResponseEntity<>("Company exists", HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>("Company not found", HttpStatus.NOT_FOUND);
+	    }
+	}
+
+
 
 
 }

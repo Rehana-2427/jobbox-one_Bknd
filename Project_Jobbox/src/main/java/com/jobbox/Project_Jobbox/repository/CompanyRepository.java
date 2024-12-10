@@ -79,4 +79,5 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     @Query("FROM Company c WHERE LOWER(c.companyName) LIKE LOWER(CONCAT('%', :companyName, '%')) AND c.companyStatus = 'Approved'")
 	List<Company> findByNameContainingIgnoreCase(String companyName);
 
+    boolean existsByCompanyName(String companyName);
 }

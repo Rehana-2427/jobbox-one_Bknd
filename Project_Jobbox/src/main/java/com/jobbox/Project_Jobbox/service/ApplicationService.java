@@ -22,7 +22,7 @@ public interface ApplicationService {
 
 	int getCountOfApplicationsByEachCompany(String userEmail);
 
-	int getCountOfApplicationsCompany(int companyId);
+	int getCountOfApplicationsCompany(String comapnyName);
 
 	int getCountOfShortlistedCandidateByEachCompany(String companyName);
 

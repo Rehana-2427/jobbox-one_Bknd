@@ -100,6 +100,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 
 	@Query("SELECT a FROM Application a WHERE a.companyName=?1 And a.jobId = ?2")
 	Page<Application> getApplicationsByCompany(String companyName, int jobId, PageRequest pageRequest);
+	@Query("SELECT a FROM Application a WHERE a.companyName = ?1")
+	Page<Application> getApplicationsByCompany(String companyName, PageRequest pageRequest);
+
 
 
 	@Query("SELECT a FROM Application a WHERE a.companyName=?1 And a.jobId = ?2 AND a.candidateId = ?3")

@@ -526,5 +526,10 @@ public class CompanyServiceImpl implements CompanyService {
 		return null;
 	}
 
+	@Override
+	public boolean isCompanyExists(String companyName) {
+	    return repository.existsByCompanyName(companyName);
+	}
+
 
 }

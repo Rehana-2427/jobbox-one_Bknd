@@ -92,10 +92,10 @@ public class JobController {
 
 
 	@GetMapping("/jobsPostedCompany")
-	public ResponseEntity<Page<Job>> getJobByCompany(@RequestParam int companyId,
+	public ResponseEntity<Page<Job>> getJobByCompany(@RequestParam String companyName,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
 			@RequestParam(required = false) String sortBy, @RequestParam(required = false) String sortOrder) {
-		Page<Job> jobs = jobService.getJobsByCompany(companyId, page, size, sortBy, sortOrder);
+		Page<Job> jobs = jobService.getJobsByCompany(companyName, page, size, sortBy, sortOrder);
 		return new ResponseEntity<Page<Job>>(jobs, HttpStatus.OK);
 	}
 
@@ -121,13 +121,13 @@ public class JobController {
 	}
 
 	@GetMapping("/countOfJobsByCompany")
-	public ResponseEntity<Integer> getcountJobByCompany(@RequestParam int companyId) {
-		return new ResponseEntity<Integer>(jobService.getCountJobByCompany(companyId), HttpStatus.OK);
+	public ResponseEntity<Integer> getcountJobByCompany(@RequestParam String companyName) {
+		return new ResponseEntity<Integer>(jobService.getCountJobByCompany(companyName), HttpStatus.OK);
 	}
 
 	@GetMapping("/countOfTotalJobsByCompany")
-	public ResponseEntity<Integer> getcountOfTotalJobByCompany(@RequestParam int companyId) {
-		return new ResponseEntity<Integer>(jobService.getcountOfTotalJobByCompany(companyId), HttpStatus.OK);
+	public ResponseEntity<Integer> getcountOfTotalJobByCompany(@RequestParam String companyName) {
+		return new ResponseEntity<Integer>(jobService.getcountOfTotalJobByCompany(companyName), HttpStatus.OK);
 	}
 
 	@GetMapping("/countofjobsbyhr")

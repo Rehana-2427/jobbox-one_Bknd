@@ -134,8 +134,8 @@ public class ApplicationController {
 
 	// count of applications got by each company
 	@GetMapping("/countOfApplicationsByCompany")
-	public ResponseEntity<Integer> getCountOfApplicationByCompany(@RequestParam int companyId) {
-		int applications = applicationService.getCountOfApplicationsCompany(companyId);
+	public ResponseEntity<Integer> getCountOfApplicationByCompany(@RequestParam String companyName) {
+		int applications = applicationService.getCountOfApplicationsCompany(companyName);
 		return new ResponseEntity<Integer>(applications, HttpStatus.OK);
 	}
 

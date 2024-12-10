@@ -78,6 +78,8 @@ public interface CompanyService {
 
 	Company mergeCompany(String cmergeWithCompanyName, int companyId);
 
+	boolean isCompanyExists(String companyName);
+
 	
 
 }
