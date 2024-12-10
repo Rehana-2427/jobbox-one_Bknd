@@ -72,6 +72,7 @@ public interface CompanyService {
 	Page<Company> getCompaniesByFilters(String companyType, String industryType, String location, int page, int size);
 
 
+
 	Company updateHiringPolicy(HiringPolicy hiringPolicy, String companyName);
 
 	HiringPolicy getHiringPolicy(String companyName);
@@ -79,6 +80,9 @@ public interface CompanyService {
 	List<Company> searchCompanies(String companyName);
 
 	Company mergeCompany(String cmergeWithCompanyName, int companyId);
+
+
+	boolean isCompanyExists(String companyName);
 
 
 	

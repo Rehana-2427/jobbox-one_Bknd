@@ -174,7 +174,6 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public Page<Company> findCompanyBySearch(String search, int page, int size,String sortBy, String sortOrder) {
 		// TODO Auto-generated method stub
-
 		logger.info("class:: CompanyServiceImpl -> method  findCompanyBySearch ::{ search : "+search+" }");
 		try {
 			PageRequest pageRequest;
@@ -186,7 +185,6 @@ public class CompanyServiceImpl implements CompanyService {
 				Sort sort = Sort.by(direction, sortBy);
 				pageRequest = PageRequest.of(page, size, sort);
 			}
-
 			return repository.findCompanyBySearch(search, pageRequest);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -195,6 +193,11 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 		
 	}
+
+
+
+
+
 
 	@Override
 	public Integer getCountOfTotalCompany() {
@@ -467,12 +470,14 @@ public class CompanyServiceImpl implements CompanyService {
 		return repository.findByFilters(companyType, industryType, location, pageable);
 	}
 
+
 	
 //=======
 //	public List<Company> searchCompanies(String companyName) {
 //		// TODO Auto-generated method stub
 //		 return repository.findByNameContainingIgnoreCase(companyName);
 //	}
+
 
 	@Override
 	public Company mergeCompany(String mergeWithCompanyName, int companyId) {
@@ -498,7 +503,6 @@ public class CompanyServiceImpl implements CompanyService {
 
 		// Update the hiring policy
 		company.setHiringPolicy(hiringPolicy);
-
 		// If reapply is not allowed, set default value for reapplyMonths (12)
 		if (!hiringPolicy.isAllowReapply()) {
 			hiringPolicy.setReapplyMonths(12); // Default value
@@ -507,6 +511,9 @@ public class CompanyServiceImpl implements CompanyService {
 		// Save the updated company entity with the new hiring policy
 		return repository.save(company);
 	}
+
+
+	
 
 	@Override
 	public HiringPolicy getHiringPolicy(String companyName) {
@@ -525,6 +532,17 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public List<Company> searchCompanies(String companyName) {
 		// TODO Auto-generated method stub
+
 		return repository.findByNameContainingIgnoreCase(companyName);
 	}
+
+
+
+	@Override
+	public boolean isCompanyExists(String companyName) {
+	    return repository.existsByCompanyName(companyName);
+	}
+
+
+
 }

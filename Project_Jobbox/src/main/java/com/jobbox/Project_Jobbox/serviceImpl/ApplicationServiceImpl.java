@@ -196,10 +196,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 	}
 
 	@Override
-	public int getCountOfApplicationsCompany(int companyId) {
+	public int getCountOfApplicationsCompany(String companyName) {
 
-		logger.info("class:: ApplicationServiceImpl -> method getCountOfApplicationsCompany ::{  companyId : "+ companyId+" }");
-		String companyName = companyRepository.getCompanyName(companyId);
+		logger.info("class:: ApplicationServiceImpl -> method getCountOfApplicationsCompany ::{  companyName : "+ companyName+" }");
 		return applicationRepository.getCountOfApplicationsCompany(companyName);
 	}
 

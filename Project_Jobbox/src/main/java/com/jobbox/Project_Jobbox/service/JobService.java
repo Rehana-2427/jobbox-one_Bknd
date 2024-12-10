@@ -34,7 +34,7 @@ public interface JobService {
 
 	Page<Job> getJobs(PageRequest pageable);
 
-	Integer getCountJobByCompany(int companyId);
+	Integer getCountJobByCompany(String companyName);
 
 	Page<Job> findJobsByHR(String search, String userEmail, int page, int size);
 
@@ -57,7 +57,7 @@ public interface JobService {
 
 	Page<Job> getJobsByCompany(String companyName, int page, int size, String sortBy, String sortOrder);
 
-	Integer getcountOfTotalJobByCompany(int companyId);
+	Integer getcountOfTotalJobByCompany(String companyName);
 
 	Page<Job> getJobsPaginationByCompany(String companyName, int page, int size, String sortBy, String sortOrder);
 
