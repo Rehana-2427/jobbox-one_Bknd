@@ -25,7 +25,9 @@ public class OtpServiceImpl implements OtpService {
 	@Override
 	public Integer sendOtp(String userEmail) {
 		// TODO Auto-generated method stub
+		System.out.println(userEmail);
 		User u = userRepository.findUserByEmail(userEmail);
+		System.out.println(u);
 		if (u == null) {
 			return null;
 		}

@@ -129,6 +129,7 @@ public class UserServicImpl implements UserService, UserDetailsService {
 		// TODO Auto-generated method stub
 		logger.info("class:: UserServicImpl -> method updatePassword :: userEmail {}, newpasswrod {} " + userEmail +" :: " +  newPassword);
 		User user = repository.findUserByEmail(userEmail);
+		System.out.println(user);
 		String hashedPassword = bCryptPasswordEncoder.encode(newPassword);
 		user.setPassword(hashedPassword);
 		repository.save(user);
