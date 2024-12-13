@@ -23,7 +23,7 @@ import com.jobbox.Project_Jobbox.serviceImpl.EmailService;
 import jakarta.mail.MessagingException;
 
 @RestController
-@CrossOrigin(origins = {"http://jobbox.one", "http://localhost:3000"})
+@CrossOrigin(origins = {"https://jobbox.one", "http://localhost:3000"})
 @Controller
 @RequestMapping("/api/jobbox")
 public class EmailController {

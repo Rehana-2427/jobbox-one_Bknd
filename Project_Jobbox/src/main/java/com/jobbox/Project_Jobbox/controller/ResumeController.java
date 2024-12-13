@@ -22,7 +22,7 @@ import com.jobbox.Project_Jobbox.entity.Resume;
 import com.jobbox.Project_Jobbox.repository.ResumeViewRepository;
 import com.jobbox.Project_Jobbox.service.ResumeService;
 
-@CrossOrigin(origins = {"http://jobbox.one", "http://localhost:3000"})
+@CrossOrigin(origins = {"https://jobbox.one", "http://localhost:3000"})
 @Controller
 @RequestMapping("/api/jobbox")
 @RestController

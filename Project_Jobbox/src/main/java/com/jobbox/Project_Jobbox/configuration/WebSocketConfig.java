@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// Register WebSocket endpoint for clients to connect to
 		// Allow all origins, adjust as needed
-		registry.addEndpoint("/api/jobbox/ws").setAllowedOriginPatterns("http://jobbox.one", "http://localhost:3000") // Allow all origins, adjust as needed
+		registry.addEndpoint("/api/jobbox/ws").setAllowedOriginPatterns("https://jobbox.one", "http://localhost:3000") // Allow all origins, adjust as needed
 				.withSockJS(); // Enable SockJS fallback options
 	}
 	

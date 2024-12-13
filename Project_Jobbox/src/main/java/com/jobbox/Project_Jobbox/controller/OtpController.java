@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jobbox.Project_Jobbox.service.OtpService;
 
 
-@CrossOrigin(origins = {"http://jobbox.one", "http://localhost:3000"})
+@CrossOrigin(origins = {"https://jobbox.one", "http://localhost:3000"})
 @Controller
 @RequestMapping("/api/jobbox")
 @RestController

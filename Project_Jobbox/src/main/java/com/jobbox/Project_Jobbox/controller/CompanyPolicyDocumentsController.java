@@ -20,7 +20,7 @@ import com.jobbox.Project_Jobbox.service.CompanyPolicyDocumentsService;
 
 import jakarta.persistence.EntityNotFoundException;
 
-@CrossOrigin(origins = {"http://jobbox.one", "http://localhost:3000"})
+@CrossOrigin(origins = {"https://jobbox.one", "http://localhost:3000"})
 @Controller
 @RequestMapping("/api/jobbox")
 @RestController

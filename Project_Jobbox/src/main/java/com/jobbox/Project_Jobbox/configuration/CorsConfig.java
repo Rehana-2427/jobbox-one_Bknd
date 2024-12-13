@@ -15,11 +15,11 @@ public class CorsConfig {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/api/jobbox").allowedOrigins("http://localhost:3000", "http://jobbox.one")
+				registry.addMapping("/api/jobbox").allowedOrigins("http://localhost:3000", "https://jobbox.one")
 						.allowedMethods("GET", "POST", "PUT", "DELETE").allowCredentials(true);
 				// Allow CORS for WebSocket endpoint (e.g., /ws or whatever path you're using)
 				registry.addMapping("/api/jobbox/ws/**")
-						.allowedOrigins("http://localhost:3000", "http://jobbox.one")
+						.allowedOrigins("http://localhost:3000", "https://jobbox.one")
 						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").allowCredentials(true);
 
 			}

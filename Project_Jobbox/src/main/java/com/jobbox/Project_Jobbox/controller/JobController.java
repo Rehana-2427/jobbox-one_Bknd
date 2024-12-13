@@ -23,7 +23,7 @@ import com.jobbox.Project_Jobbox.service.JobService;
 
 import ch.qos.logback.classic.Logger;
 
-@CrossOrigin(origins = {"http://jobbox.one", "http://localhost:3000"})
+@CrossOrigin(origins = {"https://jobbox.one", "http://localhost:3000"})
 @Controller
 @RequestMapping("/api/jobbox")
 @RestController

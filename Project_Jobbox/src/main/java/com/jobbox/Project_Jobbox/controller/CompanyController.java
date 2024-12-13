@@ -30,7 +30,7 @@ import com.jobbox.Project_Jobbox.entity.Company;
 import com.jobbox.Project_Jobbox.entity.HiringPolicy;
 import com.jobbox.Project_Jobbox.service.CompanyService;
 
-@CrossOrigin(origins = {"http://jobbox.one", "http://localhost:3000"})
+@CrossOrigin(origins = {"https://jobbox.one", "http://localhost:3000"})
 @Controller
 
 @RequestMapping("/api/jobbox")

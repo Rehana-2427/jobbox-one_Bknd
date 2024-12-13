@@ -30,7 +30,7 @@ import com.jobbox.Project_Jobbox.jwttoken.JwtUtil;
 import com.jobbox.Project_Jobbox.response.LoginResponse;
 import com.jobbox.Project_Jobbox.service.UserService;
 
-@CrossOrigin(origins = {"http://jobbox.one", "http://localhost:3000"})
+@CrossOrigin(origins = {"https://jobbox.one", "http://localhost:3000"})
 @Controller
 @RequestMapping("/api/jobbox")
 @RestController
