@@ -311,6 +311,13 @@ public class ApplicationController {
 			List<Application> responseData = applicationService.getResumeDetails(resumeId);
 			return ResponseEntity.ok(responseData);
 		}
+	 
+	  
+	  @GetMapping("/isJobApplied")
+		public ResponseEntity<Boolean> isJobApplied(@RequestParam int jobId, @RequestParam int userId) {
+			
+			return new ResponseEntity<Boolean>(applicationService.isJobApplied(jobId,userId),HttpStatus.OK);
+		}
 }
 
 

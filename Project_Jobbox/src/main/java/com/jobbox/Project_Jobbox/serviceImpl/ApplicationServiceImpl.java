@@ -747,4 +747,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 		return applicationRepository.getResumeDetails(resumeId);
 	}
 
+	@Override
+	public Boolean isJobApplied(int jobId, int userId) {
+		// TODO Auto-generated method stub
+		Application jobApplied = applicationRepository.isJobApplied(jobId,userId);
+		System.out.println(jobApplied);
+		if(jobApplied != null) {
+			return true;
+		}else return false;
+	}
+
 }

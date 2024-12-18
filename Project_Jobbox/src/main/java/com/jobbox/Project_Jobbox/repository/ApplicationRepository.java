@@ -152,6 +152,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	@Query("SELECT a FROM Application a WHERE a.resumeId = ?1")
 	List<Application> getResumeDetails(long resumeId);
 
+	@Query("SELECT a FROM Application a WHERE a.jobId = ?1 AND a.candidateId =?2")
+	Application isJobApplied(int jobId, int userId);
+
 
 
 
