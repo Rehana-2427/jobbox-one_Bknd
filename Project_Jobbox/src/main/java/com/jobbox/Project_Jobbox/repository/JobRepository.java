@@ -103,8 +103,9 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 	@Query("SELECT j FROM Job j WHERE j.postingDate >= :startDate AND j.jobStatus = :status ORDER BY j.postingDate DESC")
 	Page<Job> findJobsFromLast7Days(@Param("startDate") Date startDate, @Param("status") boolean status, PageRequest pageRequest);
 
-	@Query(value = "SELECT * FROM Job WHERE job_status = ?1 AND company_name = ?2 ORDER BY posting_date DESC LIMIT 5", nativeQuery = true)
-	List<Job> findLatest5JobsByCompany(boolean jobStatus, String companyName);
+	@Query("SELECT job FROM Job job WHERE job.jobStatus = ?1 AND job.companyName = ?2 ORDER BY job.postingDate DESC")
+	List<Job> findLatest5JobsByCompany(boolean jobStatus, String companyName, Pageable pageable);
+
 
 	@Query("SELECT job FROM Job job WHERE (job.jobTitle LIKE %?1% OR job.skills LIKE %?1% OR job.jobType LIKE %?1% OR job.location LIKE %?1%) AND job.companyName LIKE %?2% ORDER BY job.postingDate DESC")
 	Page<Job> findJobsInCompany(String search, String companyName, PageRequest pageRequest);
