@@ -46,22 +46,29 @@ public class OtpServiceImpl implements OtpService {
 	@Override
 	public int sendingOtp(String userEmail) {
 		// Check if the user already exists
-		User user = userRepository.findUserByEmail(userEmail);
+		try {
+			User user = userRepository.findUserByEmail(userEmail);
 
-		// Generate OTP
-		Random random = new Random();
-		int otp = 100000 + random.nextInt(900000);
-		System.out.println("Generated OTP for " + userEmail + ": " + otp);
+			// Generate OTP
+			Random random = new Random();
+			int otp = 100000 + random.nextInt(900000);
+			System.out.println("Generated OTP for " + userEmail + ": " + otp);
 
-		// Store OTP in temporary storage
-		otpStorage.put(userEmail, otp);
+			// Store OTP in temporary storage
+			otpStorage.put(userEmail, otp);
 
-		// Send OTP via email
-		String body = "Hello,\n\nYour OTP for registration is: " + otp;
-		String subject = "OTP for Registration";
-		emailService.sendEmail(userEmail, subject, body);
+			// Send OTP via email
+			String body = "Hello,\n\nYour OTP for registration is: " + otp;
+			String subject = "OTP for Registration";
 
-		return otp; // Return OTP to frontend for verification
+			emailService.sendEmail(userEmail, subject, body);
+			return otp;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+
+		//		return otp; // Return OTP to frontend for verification
 	}
 
 }

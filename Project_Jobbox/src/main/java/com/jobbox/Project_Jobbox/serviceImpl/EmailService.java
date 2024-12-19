@@ -60,9 +60,11 @@ public class EmailService {
 	@Autowired
 	private ApplicationRepository applicationRepository;
 
-	private final String imapHost = "imap.globat.com";
-	private final String username = "info@paisafund.com";
-	private final String jbpassword = "Jobbox@100";
+	private final String imapHost = "smpt.globat.com";
+//	private final String username = "info@paisafund.com";
+//	private final String jbpassword = "Jobbox@100";
+	private final String username = "admin@paisafund.com";
+	private final String jbpassword = "Jobbox@bm100";
 
 	public void sendEmail(String to, String subject, String body) {
 		logger.info("class::  EmailService -> method sendEmail :: to "+to+ " subject "+subject+" body "+body +"from "+username);
@@ -77,8 +79,8 @@ public class EmailService {
 			// Send the email
 			mailSender.send(message);
 
-			// Save a copy to "Sent Items" using MimeMessage
-			saveToSentItems(username, to, subject, body);
+//			// Save a copy to "Sent Items" using MimeMessage
+//			saveToSentItems(username, to, subject, body);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
