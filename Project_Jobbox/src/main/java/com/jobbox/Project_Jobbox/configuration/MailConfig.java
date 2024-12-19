@@ -16,8 +16,10 @@ public class MailConfig {
 		mailSender.setHost("smtp.globat.com");
 		mailSender.setPort(587);
 
-		mailSender.setUsername("info@paisafund.com");
-		mailSender.setPassword("Jobbox@100");
+		mailSender.setUsername("admin@paisafund.com");
+		mailSender.setPassword("Jobbox@bm100");
+//		mailSender.setUsername("info@paisafund.com");
+//		mailSender.setPassword("Jobbox@100");
 
 		Properties props = mailSender.getJavaMailProperties();
 		props.put("mail.transport.protocol", "smtp");
