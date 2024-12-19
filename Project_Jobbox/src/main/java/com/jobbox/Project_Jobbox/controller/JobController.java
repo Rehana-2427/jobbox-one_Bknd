@@ -244,7 +244,7 @@ public class JobController {
 
 	@GetMapping("/searchJobs")
 	public ResponseEntity<Page<Job>> searchJobs(@RequestParam String search, @RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "5") int size, @RequestParam(required = false) String sortBy,
+			@RequestParam(defaultValue = "6") int size, @RequestParam(required = false) String sortBy,
 			@RequestParam(required = false) String sortOrder) {   // ,@RequestParam(defaultValue = "0") int userId,@RequestParam(required = false) String filterStatus
 		Page<Job> jobs = jobService.findJobs(search, page, size, sortBy, sortOrder);
 //		Page<Job> jobs = jobService.findJobs(search, page, size, sortBy, sortOrder,userId,filterStatus);
