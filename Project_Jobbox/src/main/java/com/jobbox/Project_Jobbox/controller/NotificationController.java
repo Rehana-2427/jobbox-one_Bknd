@@ -39,8 +39,8 @@ public class NotificationController {
 	}
 
 	@PostMapping("/markNotificationsAsRead")
-	public ResponseEntity<Void> markNotificationsAsRead(@RequestParam int userId, int notificationId) {
-		notificationService.markNotificationsAsRead(userId, notificationId);
+	public ResponseEntity<Void> markNotificationsAsRead(@RequestParam int userId) {
+		notificationService.markNotificationsAsRead(userId);
 		return ResponseEntity.ok().build();
 	}
 }

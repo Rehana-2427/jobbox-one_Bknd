@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.jobbox.Project_Jobbox.entity.Application;
@@ -65,7 +64,6 @@ public class EmailService {
 //	private final String jbpassword = "Jobbox@100";
 	private final String username = "admin@paisafund.com";
 	private final String jbpassword = "Jobbox@bm100";
-
 	public void sendEmail(String to, String subject, String body) {
 		logger.info("class::  EmailService -> method sendEmail :: to "+to+ " subject "+subject+" body "+body +"from "+username);
 		try {
@@ -75,17 +73,14 @@ public class EmailService {
 			message.setTo(to);
 			message.setSubject(subject);
 			message.setText(body);
-
 			// Send the email
 			mailSender.send(message);
-
 //			// Save a copy to "Sent Items" using MimeMessage
 //			saveToSentItems(username, to, subject, body);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 	private void saveToSentItems(String from, String to, String subject, String body) {
 		Properties properties = new Properties();
 		properties.put("mail.store.protocol", "imaps");

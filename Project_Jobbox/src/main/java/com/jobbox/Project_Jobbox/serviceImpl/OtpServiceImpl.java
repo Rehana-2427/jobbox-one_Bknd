@@ -34,15 +34,13 @@ public class OtpServiceImpl implements OtpService {
 		Random random = new Random();
 		int otp = 100000 + random.nextInt(900000);
 		System.out.println(otp);
-
 		String body = "Hello " + u.getUserName() + ",\n\nOTP:." + otp;
 		String subject = "Otp";
 		// emailService.sendConfirmationEmail(user.getUserEmail(),body,subject);
 		emailService.sendEmail(userEmail, subject, body);
-
 		return otp;
 	}
-
+	
 	@Override
 	public int sendingOtp(String userEmail) {
 		// Check if the user already exists

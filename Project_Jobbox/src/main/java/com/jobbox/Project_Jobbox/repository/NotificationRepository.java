@@ -15,4 +15,5 @@ public interface NotificationRepository extends JpaRepository<Notification, Inte
 	@Query("SELECT n FROM Notification n WHERE n.isRead = false AND n.candidateId = :candidateId")
 	List<Notification> findUnreadNotifications(@Param("candidateId") int candidateId);
 
+
 }
