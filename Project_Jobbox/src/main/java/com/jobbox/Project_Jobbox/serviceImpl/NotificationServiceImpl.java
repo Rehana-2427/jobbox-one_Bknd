@@ -24,10 +24,10 @@ public class NotificationServiceImpl implements NotificationService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Transactional
 	public void sendShortlistNotification(Application application) {
 		// Construct the notification message
@@ -56,28 +56,41 @@ public class NotificationServiceImpl implements NotificationService {
 		return notificationRepository.findUnreadNotifications(candidateId);
 	}
 
+//	@Override
+//	public void markNotificationsAsRead(int userId, int notificationId) {
+//		Optional<Notification> optionalNotification = notificationRepository.findById(notificationId);
+//
+//		if (optionalNotification.isPresent()) {
+//			Notification notification = optionalNotification.get();
+//
+//			// Check if the notification belongs to the given user
+//			if (notification.getCandidateId() == userId) {
+//				notification.setRead(true);
+//				notificationRepository.save(notification); // Save the updated notification
+//
+//				notificationRepository.delete(notification); // Delete the notification
+//			} else {
+//				// Handle unauthorized access or invalid notification ownership
+//				throw new IllegalArgumentException("Notification does not belong to the user.");
+//			}
+//		} else {
+//			// Handle notification not found
+//			throw new EntityNotFoundException("Notification not found with id: " + notificationId);
+//		}
+//	}
+//
 	@Override
-	public void markNotificationsAsRead(int userId, int notificationId) {
-		Optional<Notification> optionalNotification = notificationRepository.findById(notificationId);
+	public void markNotificationsAsRead(int userId) {
+		List<Notification> notifications = notificationRepository.findUnreadNotifications(userId);
 
-		if (optionalNotification.isPresent()) {
-			Notification notification = optionalNotification.get();
-
-			// Check if the notification belongs to the given user
-			if (notification.getCandidateId() == userId) {
-				notification.setRead(true);
+		if (!notifications.isEmpty()) {
+			notifications.forEach(notification -> {
+				notification.setRead(true); // Mark each notification as read
 				notificationRepository.save(notification); // Save the updated notification
-
-				notificationRepository.delete(notification); // Delete the notification
-			} else {
-				// Handle unauthorized access or invalid notification ownership
-				throw new IllegalArgumentException("Notification does not belong to the user.");
-			}
+			});
 		} else {
-			// Handle notification not found
-			throw new EntityNotFoundException("Notification not found with id: " + notificationId);
+			// Handle no unread notifications case if necessary
+			throw new EntityNotFoundException("No unread notifications found for user with id: " + userId);
 		}
 	}
-
-
 }

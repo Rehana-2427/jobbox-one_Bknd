@@ -20,6 +20,7 @@ public class CompanyPolicyDocumentsServiceImpl implements CompanyPolicyDocuments
 
 	@Autowired
 	private CompanyPolicyDocumentsRepository companyPolicyDocumentsRepository;
+	
 	@Autowired
 	private CompanyRepository companyRepository;
 	

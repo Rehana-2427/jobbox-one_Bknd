@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -394,7 +395,8 @@ public class JobServiceImpl implements JobService {
 	public List<Job> getLatest5JobsByCompany(String companyName) {
 		logger.info("class:: JobServicImpl -> method  getLatest5JobsByCompany() :: compamyName :  " + companyName);
 		boolean status = true; // Assuming you want to filter by active jobs
-		return repository.findLatest5JobsByCompany(status, companyName);
+		Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Order.desc("postingDate")));
+		return repository.findLatest5JobsByCompany(status, companyName, pageable);
 	}
 
 	@Override
