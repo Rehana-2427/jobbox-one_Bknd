@@ -740,11 +740,13 @@ public class ApplicationServiceImpl implements ApplicationService {
 		return null;
 	}
 
+
+
 	@Override
-	public List<Application> getResumeDetails(long resumeId) {
-		// TODO Auto-generated method stub
-		System.out.println("getting resume details");
-		return applicationRepository.getResumeDetails(resumeId);
+	public Page<Application> getResumeDetailsWithPagination(long resumeId, int page, int pageSize) {
+	    PageRequest pageable = PageRequest.of(page, pageSize); // Create pageable object
+	    System.out.println("Getting resume details for resumeId: " + resumeId);
+	    return applicationRepository.getResumeDetailsWithPagination(resumeId, pageable);
 	}
 
 	@Override

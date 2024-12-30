@@ -305,13 +305,18 @@ public class ApplicationController {
 			return ResponseEntity.ok(responseData);
 		}
 	  
-	  
-	  @GetMapping("/getResumeDetails")
-		public ResponseEntity<List<Application>>  getResumeDetails(@RequestParam long resumeId) {
-			List<Application> responseData = applicationService.getResumeDetails(resumeId);
-			return ResponseEntity.ok(responseData);
-		}
 	 
+	  @GetMapping("/getResumeDetailsWithPagination")
+	  public ResponseEntity<Page<Application>> getResumeDetails(
+	          @RequestParam long resumeId,
+	          @RequestParam(defaultValue = "0") int page,
+	          @RequestParam(defaultValue = "5") int pageSize) {
+	      
+	      // Fetching resume details
+	      Page<Application> responseData = applicationService.getResumeDetailsWithPagination(resumeId, page, pageSize);
+	      return ResponseEntity.ok(responseData);
+	  }
+
 	  
 	  @GetMapping("/isJobApplied")
 		public ResponseEntity<Boolean> isJobApplied(@RequestParam int jobId, @RequestParam int userId) {
