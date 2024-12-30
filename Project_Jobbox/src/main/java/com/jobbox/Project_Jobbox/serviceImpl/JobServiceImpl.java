@@ -252,16 +252,16 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public Page<Job> getJobsByCompany(String companyName, int page, int size, String sortBy, String sortOrder) {
+	public Page<Job> getJobsByCompany(String companyName, int page, int size, String sortedColumn, String sortOrder) {
 
 		logger.info("class:: JobServicImpl -> method  getJobsByCompany() :: companyName {} " + companyName);
 		PageRequest pageRequest;
-		if (sortBy == null || sortBy.isEmpty()) {
+		if (sortedColumn == null || sortedColumn.isEmpty()) {
 
 			pageRequest = PageRequest.of(page, size); // No sorting
 		} else {
-			Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-					: Sort.by(sortBy).descending();
+			Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortedColumn).ascending()
+					: Sort.by(sortedColumn).descending();
 			pageRequest = PageRequest.of(page, size, sort);
 		}
 

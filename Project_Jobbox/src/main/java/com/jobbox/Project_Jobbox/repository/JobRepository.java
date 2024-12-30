@@ -33,7 +33,7 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 	@Query("SELECT job FROM Job job WHERE job.userEmail = ?1") //   AND job.jobCategory NOT LIKE 'evergreen%'
 	Page<Job>getJobsByHrEmailApplication(String userEmail, PageRequest pageRequest);
 	
-	@Query("select job from Job job where job.companyName=?1  AND job.jobStatus=?2 ORDER BY job.postingDate DESC")
+	@Query("select job from Job job where job.companyName=?1  AND job.jobStatus=?2 ") // ORDER BY job.postingDate DESC
 	Page<Job> getJobsByCompany(String companyName, boolean status, PageRequest pageRequest);
 
 	@Query("select job from Job job where job.jobStatus = ?1")

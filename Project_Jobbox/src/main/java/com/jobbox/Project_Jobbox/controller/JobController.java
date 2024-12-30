@@ -94,8 +94,8 @@ public class JobController {
 	@GetMapping("/jobsPostedCompany")
 	public ResponseEntity<Page<Job>> getJobByCompany(@RequestParam String companyName,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int  pageSize,
-			@RequestParam(required = false) String sortBy, @RequestParam(required = false) String sortOrder) {
-		Page<Job> jobs = jobService.getJobsByCompany(companyName, page, pageSize, sortBy, sortOrder);
+			@RequestParam(required = false) String sortedColumn, @RequestParam(required = false) String sortOrder) {
+		Page<Job> jobs = jobService.getJobsByCompany(companyName, page, pageSize, sortedColumn, sortOrder);
 		return new ResponseEntity<Page<Job>>(jobs, HttpStatus.OK);
 	}
 

@@ -55,7 +55,7 @@ public interface JobService {
 
 	Integer totalJobsofCompany(String userEmail);
 
-	Page<Job> getJobsByCompany(String companyName, int page, int size, String sortBy, String sortOrder);
+	Page<Job> getJobsByCompany(String companyName, int page, int size, String sortedColumn, String sortOrder);
 
 	Integer getcountOfTotalJobByCompany(String companyName);
 
