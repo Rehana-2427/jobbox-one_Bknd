@@ -59,7 +59,7 @@ public class EmailService {
 	@Autowired
 	private ApplicationRepository applicationRepository;
 
-	private final String imapHost = "smpt.globat.com";
+	private final String imapHost = "smtp.globat.com";
 //	private final String username = "info@paisafund.com";
 //	private final String jbpassword = "Jobbox@100";
 	private final String username = "admin@paisafund.com";
