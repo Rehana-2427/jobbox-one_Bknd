@@ -71,7 +71,8 @@ public interface ApplicationService {
 
 	List<String> checkAppliedCompanies(int userId, String[] companies, String jobRole);
 
-	List<Application> getResumeDetails(long resumeId);
 
 	Boolean isJobApplied(int jobId, int userId);
+
+	Page<Application> getResumeDetailsWithPagination(long resumeId, int page, int pageSize);
 }

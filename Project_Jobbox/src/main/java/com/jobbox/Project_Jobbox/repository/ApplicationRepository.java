@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -149,8 +150,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	@Query("UPDATE Application a SET a.companyName = ?1 WHERE a.companyName = ?2")
 	void mergeCompany(String mergeWithCompanyName, String companyName);
 
-	@Query("SELECT a FROM Application a WHERE a.resumeId = ?1")
-	List<Application> getResumeDetails(long resumeId);
+
+	@Query("SELECT a FROM Application a WHERE a.resumeId = :resumeId")
+	Page<Application> getResumeDetailsWithPagination(@Param("resumeId") long resumeId, Pageable pageable);
 
 	@Query("SELECT a FROM Application a WHERE a.jobId = ?1 AND a.candidateId =?2")
 	Application isJobApplied(int jobId, int userId);
