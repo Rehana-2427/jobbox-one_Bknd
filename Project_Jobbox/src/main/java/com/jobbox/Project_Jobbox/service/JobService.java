@@ -36,9 +36,9 @@ public interface JobService {
 
 	Integer getCountJobByCompany(String companyName);
 
-	Page<Job> findJobsByHR(String search, String userEmail, int page, int size);
+	Page<Job> findJobsByHR(String search, String userEmail, int page, int size, String sortBy, String sortOrder);
 
-	Page<Job> findJobsByCompany(String search, String userEmail, int page, int size);
+	Page<Job> findJobsByCompany(String search, String userEmail, int page, int size, String sortBy, String sortOrder);
 
 	void deletedJobbyJobId(int jobId);
 

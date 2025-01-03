@@ -21,8 +21,8 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 	@Query("select job from Job job where job.jobStatus=?1")
 	Page<Job> findAll(Pageable pageable, boolean jobStatus);
 
-	@Query("SELECT job FROM Job job WHERE job.jobStatus = ?1 AND job.companyName = ?2 ORDER BY job.postingDate DESC")
-	Page<Job> findAllByStatusAndCompanyName(Pageable pageable, boolean jobStatus, String companyName);
+	@Query("SELECT job FROM Job job WHERE job.jobStatus = ?1 AND job.companyName = ?2")
+	Page<Job> findAllByStatusAndCompanyName( boolean jobStatus, String companyName, PageRequest pageRequest);
 
 	@Query("select job.companyName from Job job where job.userName=?1")
 	String getCompamyName(String userName);
@@ -107,7 +107,7 @@ public interface JobRepository extends JpaRepository<Job, Integer> {
 	List<Job> findLatest5JobsByCompany(boolean jobStatus, String companyName, Pageable pageable);
 
 
-	@Query("SELECT job FROM Job job WHERE (job.jobTitle LIKE %?1% OR job.skills LIKE %?1% OR job.jobType LIKE %?1% OR job.location LIKE %?1%) AND job.companyName LIKE %?2% ORDER BY job.postingDate DESC")
+	@Query("SELECT job FROM Job job WHERE (job.jobTitle LIKE %?1% OR job.skills LIKE %?1% OR job.jobType LIKE %?1% OR job.location LIKE %?1%) AND job.companyName LIKE %?2%")
 	Page<Job> findJobsInCompany(String search, String companyName, PageRequest pageRequest);
 
 	@Query("SELECT job FROM Job job WHERE job.companyName = ?1 AND job.jobStatus = ?2 AND job.jobCategory = 'evergreen'")

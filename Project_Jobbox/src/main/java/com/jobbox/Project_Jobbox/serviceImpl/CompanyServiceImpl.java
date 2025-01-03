@@ -150,7 +150,6 @@ public class CompanyServiceImpl implements CompanyService {
 		Company com = repository.findCompanyByName(companyName);
 		com.setActionDate(actionDate);
 		com.setCompanyStatus(companyStatus);
-
 		repository.save(com);
 
 	}
@@ -191,7 +190,7 @@ public class CompanyServiceImpl implements CompanyService {
 			// Handle the exception or return a default page
 			return Page.empty();
 		}
-		
+
 	}
 
 
@@ -471,12 +470,12 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 
-	
-//=======
-//	public List<Company> searchCompanies(String companyName) {
-//		// TODO Auto-generated method stub
-//		 return repository.findByNameContainingIgnoreCase(companyName);
-//	}
+
+	//=======
+	//	public List<Company> searchCompanies(String companyName) {
+	//		// TODO Auto-generated method stub
+	//		 return repository.findByNameContainingIgnoreCase(companyName);
+	//	}
 
 
 	@Override
@@ -485,15 +484,10 @@ public class CompanyServiceImpl implements CompanyService {
 
 		String companyName = repository.getCompanyName(companyId);
 		applicationRepository.mergeCompany(mergeWithCompanyName, companyName);
-		Date date = new Date();
-		updateCompanyStatus(companyName,date,"Rejected");
-		
-			return repository.findCompanyByName(companyName);
-		
-//		List<Application> applications=applicationRepository.getApplicationByCompanyId(companyId);
-//		for(Application application :applications) {
-//			application.setcom
-//		}
+		Company com=repository.findByName(companyName);
+		repository.delete(com);
+		return repository.findCompanyByName(mergeWithCompanyName);
+
 	}
 
 	@Override
@@ -513,7 +507,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 
-	
+
 
 	@Override
 	public HiringPolicy getHiringPolicy(String companyName) {
@@ -540,7 +534,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public boolean isCompanyExists(String companyName) {
-	    return repository.existsByCompanyName(companyName);
+		return repository.existsByCompanyName(companyName);
 	}
 
 

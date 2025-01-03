@@ -153,17 +153,33 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
-	public Page<Job> findJobsByHR(String search, String userEmail, int page, int size) {
+	public Page<Job> findJobsByHR(String search, String userEmail, int page, int size,String sortBy, String sortOrder) {
 		// TODO Auto-generated method stub
-		PageRequest pageRequest = PageRequest.of(page, size);
+		PageRequest pageRequest;
+
+		if (sortBy == null || sortBy.isEmpty()) {
+			pageRequest = PageRequest.of(page, size); // No sorting
+		} else {
+			Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+					: Sort.by(sortBy).descending();
+			pageRequest = PageRequest.of(page, size, sort);
+		}	
 		boolean status = true;
 		return repository.findjobsByHR(search, userEmail, status, pageRequest);
 	}
 
 	@Override
-	public Page<Job> findJobsByCompany(String search, String userEmail, int page, int size) {
+	public Page<Job> findJobsByCompany(String search, String userEmail, int page, int size, String sortBy, String sortOrder) {
 		String company = userRepository.getCompanyByEmail(userEmail);
-		PageRequest pageRequest = PageRequest.of(page, size);
+		PageRequest pageRequest;
+
+		if (sortBy == null || sortBy.isEmpty()) {
+			pageRequest = PageRequest.of(page, size); // No sorting
+		} else {
+			Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+					: Sort.by(sortBy).descending();
+			pageRequest = PageRequest.of(page, size, sort);
+		}	
 		boolean status = true;
 		return repository.findjobsByCompany(search, company, status, pageRequest);
 	}
@@ -355,7 +371,7 @@ public class JobServiceImpl implements JobService {
 			pageRequest = PageRequest.of(page, size, sort);
 		}
 
-		return repository.findAllByStatusAndCompanyName(pageRequest, true, company);
+		return repository.findAllByStatusAndCompanyName( true, company,pageRequest);
 	}
 
 	@Override
@@ -388,7 +404,7 @@ public class JobServiceImpl implements JobService {
 		}
 
 		boolean status = true;
-		return repository.findAllByStatusAndCompanyName(pageRequest, status, companyName);
+		return repository.findAllByStatusAndCompanyName( status, companyName,pageRequest);
 	}
 
 	@Override
@@ -591,44 +607,44 @@ public class JobServiceImpl implements JobService {
 		return Page.empty();
 	}
 
-//	@Override
-//	public Page<Job> findJobs(String search, int page, int size, String sortBy, String sortOrder, int userId,
-//			String filter) {
-//		// TODO Auto-generated method stub
-//		logger.info("class:: JobServicImpl -> method  findJobs() :: search {} "+search);
-//		PageRequest pageRequest;
-//		if (sortBy == null || sortBy.isEmpty()) {
-//			pageRequest = PageRequest.of(page, size); // No sorting
-//		} else {
-//			Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
-//					: Sort.by(sortBy).descending();
-//			pageRequest = PageRequest.of(page, size, sort);
-//		}
-//		if(filter ==null) {
-//			return repository.findjobs(search, pageRequest);
-//		}
-//		else if(filter.equals("Apply")) {
-//			System.out.println(userId);
-//			return findApplyJobs(search,userId,pageRequest);
-//		}else if(filter.equals("Applied")){
-//			return findAppliedJobs(search,userId,pageRequest);
-//		}
-//		
-//		return repository.findjobs(search, pageRequest);
-//	}
-//
-//	private Page<Job> findAppliedJobs(String search, int userId, PageRequest pageRequest) {
-//		// TODO Auto-generated method stub
-//		List<Integer> jobIds=applicationRepository.getJobIdsByUserId(userId);
-//		Page<Job> jobs=repository.findEverAppliedWithUser(jobIds, true,search,pageRequest);
-//		return jobs;
-//	}
-//
-//	private Page<Job> findApplyJobs(String search, int userId, PageRequest pageRequest) {
-//		// TODO Auto-generated method stub
-//		List<Integer> jobIds=applicationRepository.getJobIdsByUserId(userId);
-//		Page<Job> jobs=repository.findEverApplyWithUser(jobIds, true,search,pageRequest);
-//		return jobs;
-//	}
+	//	@Override
+	//	public Page<Job> findJobs(String search, int page, int size, String sortBy, String sortOrder, int userId,
+	//			String filter) {
+	//		// TODO Auto-generated method stub
+	//		logger.info("class:: JobServicImpl -> method  findJobs() :: search {} "+search);
+	//		PageRequest pageRequest;
+	//		if (sortBy == null || sortBy.isEmpty()) {
+	//			pageRequest = PageRequest.of(page, size); // No sorting
+	//		} else {
+	//			Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+	//					: Sort.by(sortBy).descending();
+	//			pageRequest = PageRequest.of(page, size, sort);
+	//		}
+	//		if(filter ==null) {
+	//			return repository.findjobs(search, pageRequest);
+	//		}
+	//		else if(filter.equals("Apply")) {
+	//			System.out.println(userId);
+	//			return findApplyJobs(search,userId,pageRequest);
+	//		}else if(filter.equals("Applied")){
+	//			return findAppliedJobs(search,userId,pageRequest);
+	//		}
+	//		
+	//		return repository.findjobs(search, pageRequest);
+	//	}
+	//
+	//	private Page<Job> findAppliedJobs(String search, int userId, PageRequest pageRequest) {
+	//		// TODO Auto-generated method stub
+	//		List<Integer> jobIds=applicationRepository.getJobIdsByUserId(userId);
+	//		Page<Job> jobs=repository.findEverAppliedWithUser(jobIds, true,search,pageRequest);
+	//		return jobs;
+	//	}
+	//
+	//	private Page<Job> findApplyJobs(String search, int userId, PageRequest pageRequest) {
+	//		// TODO Auto-generated method stub
+	//		List<Integer> jobIds=applicationRepository.getJobIdsByUserId(userId);
+	//		Page<Job> jobs=repository.findEverApplyWithUser(jobIds, true,search,pageRequest);
+	//		return jobs;
+	//	}
 
 }

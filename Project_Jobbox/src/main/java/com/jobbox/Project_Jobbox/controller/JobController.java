@@ -33,7 +33,7 @@ public class JobController {
 
 	@PostMapping("/postingJob")
 	public ResponseEntity<Job> postJob(@RequestBody Job job) {
-	    System.out.println("Job Category: " + job.getJobCategory()); // Logging jobCategory
+		System.out.println("Job Category: " + job.getJobCategory()); // Logging jobCategory
 		return new ResponseEntity<Job>(jobService.postJob(job), HttpStatus.CREATED);
 	}
 
@@ -52,7 +52,7 @@ public class JobController {
 		return new ResponseEntity<Page<Job>>(jobsPagination, HttpStatus.OK);
 	}
 
-	
+
 
 	@GetMapping("/getJobsPaginationByCompany")
 	public ResponseEntity<Page<Job>> getJobsPaginationByCompany(@RequestParam String companyName,
@@ -72,22 +72,22 @@ public class JobController {
 	@PutMapping("/updateJob")
 	public ResponseEntity<String> updateJobDetails(@RequestParam int jobId, @RequestBody Job jobDetails) {
 
-	    Job existingJob = jobService.getJobByJobId(jobId);
-	    
-	    existingJob.setJobTitle(jobDetails.getJobTitle());
-	    existingJob.setJobType(jobDetails.getJobType());
-	    existingJob.setPostingDate(jobDetails.getPostingDate());
-	    existingJob.setSkills(jobDetails.getSkills());
-	    existingJob.setApplicationDeadline(jobDetails.getApplicationDeadline());
-	    existingJob.setNumberOfPosition(jobDetails.getNumberOfPosition());
-	    existingJob.setSalary(jobDetails.getSalary());
-	    existingJob.setLocation(jobDetails.getLocation());
-	    existingJob.setJobsummary(jobDetails.getJobsummary());
-	    existingJob.setJobCategory(jobDetails.getJobCategory());  // Update jobCategory
+		Job existingJob = jobService.getJobByJobId(jobId);
 
-	    jobService.postJob(existingJob);
-	    
-	    return new ResponseEntity<String>("Updated Successfully", HttpStatus.OK);
+		existingJob.setJobTitle(jobDetails.getJobTitle());
+		existingJob.setJobType(jobDetails.getJobType());
+		existingJob.setPostingDate(jobDetails.getPostingDate());
+		existingJob.setSkills(jobDetails.getSkills());
+		existingJob.setApplicationDeadline(jobDetails.getApplicationDeadline());
+		existingJob.setNumberOfPosition(jobDetails.getNumberOfPosition());
+		existingJob.setSalary(jobDetails.getSalary());
+		existingJob.setLocation(jobDetails.getLocation());
+		existingJob.setJobsummary(jobDetails.getJobsummary());
+		existingJob.setJobCategory(jobDetails.getJobCategory());  // Update jobCategory
+
+		jobService.postJob(existingJob);
+
+		return new ResponseEntity<String>("Updated Successfully", HttpStatus.OK);
 	}
 
 
@@ -154,9 +154,9 @@ public class JobController {
 
 		return new ResponseEntity<Page<Job>>(jobs, HttpStatus.OK);
 	}
-	
-	
-	
+
+
+
 	@GetMapping("/jobsByHrEmail")
 	public ResponseEntity<Page<Job>> showJobbyHrEmail1(@RequestParam String userEmail,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
@@ -196,23 +196,23 @@ public class JobController {
 		return new ResponseEntity<Page<Job>>(jobs, HttpStatus.OK);
 	}
 
-	
+
 	@GetMapping("/getEverGreenJobsByCompany")
 	public ResponseEntity<Page<Job>> getEverGreenJobsByCompany(@RequestParam String userEmail,
-	                                                           @RequestParam(defaultValue = "0") int page,
-	                                                           @RequestParam(defaultValue = "5") int size,
-	                                                           @RequestParam(required = false) String sortBy,
-	                                                           @RequestParam(required = false) String sortOrder) {
-	    Page<Job> jobs = null;
-	    try {
-	        jobs = jobService.getEverGreenJobsByCompany(userEmail, true, page, size, sortBy, sortOrder);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return new ResponseEntity<Page<Job>>(jobs, HttpStatus.OK);
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size,
+			@RequestParam(required = false) String sortBy,
+			@RequestParam(required = false) String sortOrder) {
+		Page<Job> jobs = null;
+		try {
+			jobs = jobService.getEverGreenJobsByCompany(userEmail, true, page, size, sortBy, sortOrder);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Page<Job>>(jobs, HttpStatus.OK);
 	}
 
-	
+
 	@GetMapping("/jobsPostedByCompany")
 	public ResponseEntity<Page<Job>> getJobsByCompany(@RequestParam String companyName,
 			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
@@ -228,16 +228,18 @@ public class JobController {
 
 	@GetMapping("/searchJobsByHR")
 	public ResponseEntity<Page<Job>> searchJobsByHR(@RequestParam String search, @RequestParam String userEmail,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-		Page<Job> jobs = jobService.findJobsByHR(search, userEmail, page, size);
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, @RequestParam(required = false) String sortBy,
+			@RequestParam(required = false) String sortOrder) {
+		Page<Job> jobs = jobService.findJobsByHR(search, userEmail, page, size,sortBy,sortOrder);
 		return new ResponseEntity<Page<Job>>(jobs, HttpStatus.OK);
 
 	}
 
 	@GetMapping("/searchJobsByCompany")
 	public ResponseEntity<Page<Job>> searchJobsByCompany(@RequestParam String search, @RequestParam String userEmail,
-			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-		Page<Job> jobs = jobService.findJobsByCompany(search, userEmail, page, size);
+			@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size, @RequestParam(required = false) String sortBy,
+			@RequestParam(required = false) String sortOrder) {
+		Page<Job> jobs = jobService.findJobsByCompany(search, userEmail, page, size,sortBy,sortOrder);
 		return new ResponseEntity<Page<Job>>(jobs, HttpStatus.OK);
 
 	}
@@ -247,7 +249,7 @@ public class JobController {
 			@RequestParam(defaultValue = "6") int size, @RequestParam(required = false) String sortBy,
 			@RequestParam(required = false) String sortOrder) {   // ,@RequestParam(defaultValue = "0") int userId,@RequestParam(required = false) String filterStatus
 		Page<Job> jobs = jobService.findJobs(search, page, size, sortBy, sortOrder);
-//		Page<Job> jobs = jobService.findJobs(search, page, size, sortBy, sortOrder,userId,filterStatus);
+		//		Page<Job> jobs = jobService.findJobs(search, page, size, sortBy, sortOrder,userId,filterStatus);
 		return new ResponseEntity<Page<Job>>(jobs, HttpStatus.OK);
 	}
 
@@ -277,24 +279,24 @@ public class JobController {
 
 		return new ResponseEntity<Page<Job>>(jobsPagination, HttpStatus.OK);
 	}
-	
-	
-	
+
+
+
 	@GetMapping("/searchJobsWithFilter")
 	public ResponseEntity<Page<Job>> searchJobsWithFilter(
-	        @RequestParam String search,
-	        @RequestParam(defaultValue = "0") int page,
-	        @RequestParam(defaultValue = "5") int size,
-	        @RequestParam(required = false) String sortBy,
-	        @RequestParam(required = false) String sortOrder,
-	        @RequestParam(defaultValue = "0") int userId,
-	        @RequestParam(required = false, defaultValue = "all") String filterStatus) {
+			@RequestParam String search,
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size,
+			@RequestParam(required = false) String sortBy,
+			@RequestParam(required = false) String sortOrder,
+			@RequestParam(defaultValue = "0") int userId,
+			@RequestParam(required = false, defaultValue = "all") String filterStatus) {
 
-	    Page<Job> jobs = jobService.findJobswithfilter(search, page, size, sortBy, sortOrder, userId, filterStatus);
-	    return new ResponseEntity<>(jobs, HttpStatus.OK);
+		Page<Job> jobs = jobService.findJobswithfilter(search, page, size, sortBy, sortOrder, userId, filterStatus);
+		return new ResponseEntity<>(jobs, HttpStatus.OK);
 	}
 
-	
+
 	@GetMapping("/getCandiEvergreenJobsByFiltering")
 	public ResponseEntity<Page<Job>> getCandiEvergreenJobsByFiltering(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size, @RequestParam(required = false) String sortBy,
@@ -308,10 +310,10 @@ public class JobController {
 
 	@GetMapping("/latestJobs")
 	public ResponseEntity<Page<Job>> getJobsFromLast7Days(
-	        @RequestParam(defaultValue = "0") int page,
-	        @RequestParam(defaultValue = "10") int size) {
-	    Page<Job> jobs = jobService.getJobsFromLast7Days(page, size);
-	    return new ResponseEntity<>(jobs, HttpStatus.OK);
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
+		Page<Job> jobs = jobService.getJobsFromLast7Days(page, size);
+		return new ResponseEntity<>(jobs, HttpStatus.OK);
 	}
 
 	@GetMapping("/getJobsByCompany")
